@@ -52,15 +52,14 @@ namespace System.Windows.Calculator
             set => base.SetValue(value);
         }
 
-        public void Calculate()
+        public void EvaluateExpression()
         {
             ErrorText = string.Empty;
 
             try
             {
                 this.Result = _engine.Evaluate(ExpressionText);
-
-                this.DisplayText = this.Result.ToString() ?? "";
+                this.DisplayText = Result.ToString();
             }
             catch (TokenizerException ex)
             {

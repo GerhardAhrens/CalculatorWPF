@@ -20,9 +20,9 @@
                 return;
             }
 
-            if (DataContext is CalculatorViewModel vm)
+            if (this.DataContext is CalculatorViewModel vm)
             {
-                vm.Calculate();
+                vm.EvaluateExpression();
 
                 e.Handled = true;
             }

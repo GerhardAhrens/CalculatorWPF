@@ -5,33 +5,41 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:System.Windows.Calculator"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="80"
+    d:DesignHeight="120"
     d:DesignWidth="400"
     mc:Ignorable="d">
     <Grid Margin="10">
 
         <Grid.RowDefinitions>
-
             <RowDefinition Height="Auto" />
-
+            <RowDefinition Height="8" />
             <RowDefinition Height="Auto" />
-
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
-
         </Grid.RowDefinitions>
 
+        <!--  Ergebnis  -->
+        <TextBox
+            Grid.Row="0"
+            HorizontalContentAlignment="Right"
+            FontSize="28"
+            IsReadOnly="True"
+            Text="{Binding Path=DisplayText}" />
+
+        <!--  Eingabe  -->
         <TextBox
             x:Name="ExpressionBox"
-            Grid.Row="0"
-            Margin="0,0,0,5"
-            FontSize="22"
+            Grid.Row="2"
+            FontSize="20"
             KeyDown="ExpressionBox_KeyDown"
-            Text="{Binding ExpressionText, UpdateSourceTrigger=PropertyChanged}" />
+            Text="{Binding Path=ExpressionText, UpdateSourceTrigger=PropertyChanged}" />
 
+        <!--  Fehler  -->
         <TextBlock
-            Grid.Row="1"
+            Grid.Row="3"
+            Margin="0,5,0,0"
             Foreground="Red"
-            Text="{Binding ErrorText}" />
+            Text="{Binding Path=ErrorText}" />
 
     </Grid>
 </UserControl>

@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:base="clr-namespace:System.Windows"
+    xmlns:calculator="clr-namespace:System.Windows.Calculator"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:CalculatorWPF"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -152,13 +153,10 @@
             </DockPanel>
         </Border>
 
-        <TextBlock
-            Grid.Row="1"
-            Grid.Column="0"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            FontSize="24"
-            Text="{Binding Path=WindowTitel, FallbackValue=~WindowTitel}" />
+        <ContentControl Grid.Row="1">
+            <calculator:CalculatorControl Mode="Expression" />
+        </ContentControl>
+
 
         <!--#region Statuszeile-->
         <StatusBar
