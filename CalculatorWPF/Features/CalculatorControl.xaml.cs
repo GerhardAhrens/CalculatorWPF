@@ -15,6 +15,7 @@
         public CalculatorControl()
         {
             this.InitializeComponent();
+            _viewModel.PropertyChanged += this.OnViewModelPropertyChanged;
             this._classicView = new ClassicCalculatorView();
             this._expressionView = new ExpressionCalculatorView();
 
@@ -22,6 +23,17 @@
             this._expressionView.DataContext = _viewModel;
 
             this.Loaded += CalculatorControl_Loaded;
+        }
+
+        private void OnViewModelPropertyChanged(object sender, ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(CalculatorViewModel.Result):
+
+                    this.Result = _viewModel.Result;
+                    break;
+            }
         }
 
         public static readonly DependencyProperty ResultProperty =

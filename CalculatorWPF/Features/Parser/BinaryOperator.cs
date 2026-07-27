@@ -22,6 +22,5 @@ namespace System.Windows.Calculator
         Multiply,
         Divide,
         Power,
-        Percent
     }
 }

@@ -21,6 +21,7 @@ namespace CalculatorWPF
     using System.IO;
     using System.Text;
     using System.Windows;
+    using System.Windows.Calculator;
     using System.Windows.Markup;
     using System.Windows.Threading;
 
@@ -48,6 +49,12 @@ namespace CalculatorWPF
         /// behandelt und angezeigt werden.</remarks>
         public App()
         {
+            /*
+            CalculatorEngine engine = new();
+            double result = engine.Evaluate("2*(3+4)");
+            Debug.WriteLine(result);
+            */
+
             try
             {
                 /* Name der EXE Datei*/

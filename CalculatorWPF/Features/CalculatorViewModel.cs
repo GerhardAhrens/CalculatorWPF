@@ -19,6 +19,8 @@ namespace System.Windows.Calculator
 
     public class CalculatorViewModel : NotifyPropertyBase
     {
+        private readonly CalculatorEngine _engine = new();
+
         public CalculatorViewModel ()
         {
             this.DisplayText = "0";
@@ -26,7 +28,6 @@ namespace System.Windows.Calculator
             this.ErrorText = string.Empty;
         }
 
-        #region Properties
         public string DisplayText
         {
             get => base.GetValue<string>();
@@ -44,19 +45,39 @@ namespace System.Windows.Calculator
             get => base.GetValue<string>();
             set => base.SetValue(value);
         }
-        #endregion Properties
 
-        #region Class Methodes
-        public void MyMethodes()
+        public double Result
         {
+            get => base.GetValue<double>();
+            set => base.SetValue(value);
+        }
+
+        public void Calculate()
+        {
+            ErrorText = string.Empty;
+
             try
             {
+                this.Result = _engine.Evaluate(ExpressionText);
+
+                this.DisplayText = this.Result.ToString() ?? "";
+            }
+            catch (TokenizerException ex)
+            {
+                ErrorText = ex.Message;
+            }
+            catch (ParserException ex)
+            {
+                ErrorText = ex.Message;
+            }
+            catch (EvaluationException ex)
+            {
+                ErrorText = ex.Message;
             }
             catch (Exception ex)
             {
-                string errorText = ex.Message;
+                ErrorText = ex.Message;
             }
         }
-        #endregion Class Methodes
     }
 }
