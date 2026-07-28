@@ -118,7 +118,7 @@
             {
                 Next();
 
-                ExpressionNode right = ParsePower();
+                ExpressionNode right = ParseUnary();
 
                 return new BinaryExpression(left, BinaryOperator.Power, right);
             }
