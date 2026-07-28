@@ -1,20 +1,276 @@
-﻿<UserControl
+﻿<base:UserControlBase
     x:Class="System.Windows.Calculator.ClassicCalculatorView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:base="clr-namespace:System.Windows"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:System.Windows.Calculator"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="400"
     d:DesignWidth="400"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Style x:Key="CalculatorButtonStyle" TargetType="Button">
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="MinHeight" Value="42" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontWeight" Value="Medium" />
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
+        <Grid.RowDefinitions>
+            <!--  Memory  -->
+            <RowDefinition Height="Auto" />
+            <!--  Anzeige  -->
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
 
         <TextBlock
-            HorizontalAlignment="Center"
+            x:Name="DisplayText"
+            Grid.Row="1"
+            Grid.ColumnSpan="4"
+            HorizontalAlignment="Right"
             VerticalAlignment="Center"
-            FontSize="24"
-            Text="Classic Calculator" />
+            FontSize="36"
+            TextTrimming="CharacterEllipsis" />
 
+        <!--#region Zeile 2 Memory Funktionen-->
+        <Button
+            Grid.Row="2"
+            Grid.Column="0"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}"
+            ToolTip="Speicher löschen">
+            <Image
+                Margin="6"
+                Source="{StaticResource ResourceKey=Calculator.MemoryClear}"
+                Stretch="Uniform" />
+        </Button>
+
+        <Button
+            Grid.Row="2"
+            Grid.Column="1"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}">
+            <Image Margin="5" Source="{StaticResource ResourceKey=Calculator.MemoryRecall}" />
+        </Button>
+
+        <Button
+            Grid.Row="2"
+            Grid.Column="2"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}">
+            <Image Margin="5" Source="{StaticResource ResourceKey=Calculator.MemoryStore}" />
+        </Button>
+
+        <Button
+            Grid.Row="2"
+            Grid.Column="3"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}">
+            <Image Margin="5" Source="{StaticResource ResourceKey=Calculator.MemoryAdd}" />
+        </Button>
+
+        <Button
+            Grid.Row="2"
+            Grid.Column="4"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}">
+            <Image Margin="5" Source="{StaticResource ResourceKey=Calculator.MemorySubtract}" />
+        </Button>
+        <!--#endregion Zeile 2 Memory Funktionen-->
+
+        <!--#region Zeile 3-->
+        <Button
+            Grid.Row="3"
+            Grid.Column="0"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}">
+            <Image Margin="5" Source="{StaticResource ResourceKey=Calculator.Percent}" />
+        </Button>
+
+        <Button
+            Grid.Row="3"
+            Grid.Column="1"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}">
+            <Image Margin="5" Source="{StaticResource ResourceKey=Calculator.ClearEntry}" />
+        </Button>
+
+        <Button
+            Grid.Row="3"
+            Grid.Column="2"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}">
+            <Image Margin="5" Source="{StaticResource ResourceKey=Calculator.Clear}" />
+
+        </Button>
+
+        <Button
+            Grid.Row="3"
+            Grid.Column="3"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}">
+            <Image Margin="5" Source="{StaticResource ResourceKey=Calculator.Backspace}" />
+        </Button>
+        <!--#endregion Zeile 3-->
+
+        <!--#region Zeile 4-->
+        <Button
+            Grid.Row="4"
+            Grid.Column="0"
+            Content="1/x"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}" />
+
+        <Button
+            Grid.Row="4"
+            Grid.Column="1"
+            Content="X²"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}" />
+
+        <Button
+            Grid.Row="4"
+            Grid.Column="2"
+            Content="Wx"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}" />
+
+        <Button
+            Grid.Row="4"
+            Grid.Column="3"
+            Content="/"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}" />
+        <!--#endregion Zeile 4-->
+
+        <!--#region Zeile 5-->
+        <Button
+            Grid.Row="5"
+            Grid.Column="0"
+            Command="{Binding Path=InputCommand}"
+            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+            Content="7"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}" />
+
+        <Button
+            Grid.Row="5"
+            Grid.Column="1"
+            Command="{Binding Path=InputCommand}"
+            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+            Content="8"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}" />
+
+        <Button
+            Grid.Row="5"
+            Grid.Column="2"
+            Command="{Binding Path=InputCommand}"
+            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+            Content="9"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}" />
+
+        <Button
+            Grid.Row="5"
+            Grid.Column="3"
+            Content="x"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}" />
+        <!--#endregion Zeile 5-->
+
+        <!--#region Zeile 6-->
+        <Button
+            Grid.Row="6"
+            Grid.Column="0"
+            Command="{Binding Path=InputCommand}"
+            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+            Content="4"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}" />
+
+        <Button
+            Grid.Row="6"
+            Grid.Column="1"
+            Command="{Binding Path=InputCommand}"
+            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+            Content="5"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}" />
+
+        <Button
+            Grid.Row="6"
+            Grid.Column="2"
+            Command="{Binding Path=InputCommand}"
+            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+            Content="6"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}" />
+
+        <Button
+            Grid.Row="6"
+            Grid.Column="3"
+            Content="-"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}" />
+        <!--#endregion Zeile 6-->
+
+        <!--#region Zeile 7-->
+        <Button
+            Grid.Row="7"
+            Grid.Column="0"
+            Command="{Binding Path=InputCommand}"
+            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+            Content="1"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}" />
+
+        <Button
+            Grid.Row="7"
+            Grid.Column="1"
+            Command="{Binding Path=InputCommand}"
+            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+            Content="2"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}" />
+
+        <Button
+            Grid.Row="7"
+            Grid.Column="2"
+            Command="{Binding Path=InputCommand}"
+            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+            Content="3"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}" />
+
+        <Button
+            Grid.Row="7"
+            Grid.Column="3"
+            Content="+"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}" />
+        <!--#endregion Zeile 7-->
+
+        <!--#region Zeile 7-->
+        <Button
+            Grid.Row="8"
+            Grid.Column="0"
+            Content="+/-"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}" />
+
+        <Button
+            Grid.Row="8"
+            Grid.Column="1"
+            Command="{Binding Path=InputCommand}"
+            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+            Content="0"
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}" />
+
+        <Button
+            Grid.Row="8"
+            Grid.Column="2"
+            Content=","
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}" />
+
+        <Button
+            Grid.Row="8"
+            Grid.Column="3"
+            Content="="
+            Style="{StaticResource ResourceKey=CalculatorButtonStyle}" />
+        <!--#endregion Zeile 7-->
     </Grid>
-</UserControl>
+</base:UserControlBase>

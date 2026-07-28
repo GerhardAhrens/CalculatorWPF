@@ -4,7 +4,7 @@
     {
         private readonly CalculatorEngine _engine;
         private readonly FunctionRegistry _functionRegistry;
-        private readonly VariableRegistry _variableRegistry;
+        //private readonly VariableRegistry _variableRegistry;
 
         public Evaluator(CalculatorEngine engine, FunctionRegistry functionRegistry)
         {

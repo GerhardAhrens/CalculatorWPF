@@ -1,8 +1,9 @@
-﻿<Application x:Class="CalculatorWPF.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:CalculatorWPF"
-             StartupUri="View\MainWindow.xaml">
+﻿<Application
+    x:Class="CalculatorWPF.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:CalculatorWPF"
+    StartupUri="View\MainWindow.xaml">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -11,6 +12,7 @@
                 <!--  Lokale Styles  -->
                 <ResourceDictionary Source="Resources\Style\Pictures.xaml" />
                 <ResourceDictionary Source="Resources\Style\XamlIcon.xaml" />
+                <ResourceDictionary Source="Resources\Style\XamlCalcIcon.xaml" />
                 <ResourceDictionary Source="Resources\Style\ApplicationResources.xaml" />
                 <ResourceDictionary Source="Resources\Localization\Localization.xaml" />
                 <ResourceDictionary Source="TemplateCore\Themes\Generic.xaml" />
