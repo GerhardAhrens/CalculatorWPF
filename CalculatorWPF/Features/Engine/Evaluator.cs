@@ -2,11 +2,13 @@
 {
     public class Evaluator
     {
-        private readonly FunctionRegistry _registry;
+        private readonly FunctionRegistry _functionRegistry;
+        private readonly VariableRegistry _variableRegistry;
 
-        public Evaluator(FunctionRegistry registry)
+        public Evaluator(FunctionRegistry functionRegistry, VariableRegistry variableRegistry)
         {
-            _registry = registry;
+            _functionRegistry = functionRegistry;
+            _variableRegistry = variableRegistry;
         }
 
         public double Evaluate(ExpressionNode node)
@@ -24,6 +26,9 @@
 
                 case FunctionExpression function:
                     return EvaluateFunction(function);
+
+                case VariableExpression variable:
+                    return EvaluateVariable(variable);
 
                 default:
                     throw new EvaluationException($"Unbekannter Knotentyp '{node.GetType().Name}'.");
@@ -97,7 +102,7 @@
 
         private double EvaluateFunction(FunctionExpression function)
         {
-            if (!_registry.TryGetFunction(function.Name, out var calculatorFunction))
+            if (!_functionRegistry.TryGetFunction(function.Name, out var calculatorFunction))
             {
                 throw new EvaluationException($"Unbekannte Funktion '{function.Name}'.");
             }
@@ -115,6 +120,16 @@
             }
 
             return calculatorFunction.Execute(values);
+        }
+
+        private double EvaluateVariable(VariableExpression variable)
+        {
+            if (!_variableRegistry.TryGetValue(variable.Name, out double value))
+            {
+                throw new EvaluationException($"Unbekannte Variable '{variable.Name}'.");
+            }
+
+            return value;
         }
     }
 }

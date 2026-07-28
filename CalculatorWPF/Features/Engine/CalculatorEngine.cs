@@ -4,16 +4,20 @@
 
     public class CalculatorEngine
     {
+        public double MemoryValue { get; set; }
+
         private readonly Tokenizer _tokenizer = new();
         private readonly Parser _parser = new();
-        private readonly FunctionRegistry _registry;
+        private readonly FunctionRegistry _functionRegistry;
+        private readonly VariableRegistry _variableRegistry;
         private readonly Evaluator _evaluator;
 
         public CalculatorEngine()
         {
-            this._registry = new FunctionRegistry();
-            this._registry.Register(new SqrtFunction());
-            this._evaluator = new Evaluator(_registry);
+            _functionRegistry = new FunctionRegistry();
+            _variableRegistry = new VariableRegistry();
+            this._functionRegistry.Register(new SqrtFunction());
+            _evaluator = new Evaluator(_functionRegistry, _variableRegistry);
         }
 
         public double Evaluate(string expression)

@@ -112,7 +112,7 @@
 
         private ExpressionNode ParsePower()
         {
-            ExpressionNode left = ParsePrimary();
+            ExpressionNode left = ParsePercent();
 
             if (Current.Type == TokenType.Power)
             {
@@ -124,6 +124,20 @@
             }
 
             return left;
+        }
+
+        private ExpressionNode ParsePercent()
+        {
+            ExpressionNode node = ParsePrimary();
+
+            while (Current.Type == TokenType.Percent)
+            {
+                Next();
+
+                node = new BinaryExpression(node, BinaryOperator.Divide, new NumberExpression(100));
+            }
+
+            return node;
         }
 
         #region Primary
@@ -152,7 +166,16 @@
 
             if (Current.Type == TokenType.Identifier)
             {
-                return ParseFunction();
+                string identifier = Current.Text;
+
+                Next();
+
+                if (Current.Type == TokenType.LeftParenthesis)
+                {
+                    return ParseFunction(identifier);
+                }
+
+                return new VariableExpression(identifier);
             }
 
             throw new ParserException($"Unerwartetes Token '{Current.Text}'.");
@@ -174,21 +197,24 @@
         {
             if (Current.Type != tokenType)
             {
-                throw new ParserException(
-                    $"'{tokenType}' erwartet, gefunden '{Current.Text}'.");
+                throw new ParserException($"'{tokenType}' erwartet, gefunden '{Current.Text}'.");
             }
 
             Next();
         }
 
-        #endregion
-
-        private FunctionExpression ParseFunction()
+        private VariableExpression ParseVariable()
         {
-            string functionName = Current.Text;
+            string name = Current.Text;
 
             Next();
 
+            return new VariableExpression(name);
+        }
+        #endregion
+
+        private FunctionExpression ParseFunction(string functionName)
+        {
             Expect(TokenType.LeftParenthesis);
 
             List<ExpressionNode> parameters = new();
