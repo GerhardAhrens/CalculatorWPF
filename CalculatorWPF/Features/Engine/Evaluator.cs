@@ -2,13 +2,14 @@
 {
     public class Evaluator
     {
+        private readonly CalculatorEngine _engine;
         private readonly FunctionRegistry _functionRegistry;
         private readonly VariableRegistry _variableRegistry;
 
-        public Evaluator(FunctionRegistry functionRegistry, VariableRegistry variableRegistry)
+        public Evaluator(CalculatorEngine engine, FunctionRegistry functionRegistry)
         {
+            _engine = engine;
             _functionRegistry = functionRegistry;
-            _variableRegistry = variableRegistry;
         }
 
         public double Evaluate(ExpressionNode node)
@@ -124,12 +125,10 @@
 
         private double EvaluateVariable(VariableExpression variable)
         {
-            if (!_variableRegistry.TryGetValue(variable.Name, out double value))
-            {
-                throw new EvaluationException($"Unbekannte Variable '{variable.Name}'.");
-            }
+            if (variable.Name.Equals("M", StringComparison.OrdinalIgnoreCase))
+                return _engine.MemoryValue;
 
-            return value;
+            throw new EvaluationException($"Unbekannte Variable '{variable.Name}'.");
         }
     }
 }

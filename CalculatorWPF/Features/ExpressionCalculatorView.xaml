@@ -27,12 +27,31 @@
             Text="{Binding Path=DisplayText}" />
 
         <!--  Eingabe  -->
-        <TextBox
-            x:Name="ExpressionBox"
+        <Grid
             Grid.Row="2"
-            FontSize="20"
-            KeyDown="ExpressionBox_KeyDown"
-            Text="{Binding Path=ExpressionText, UpdateSourceTrigger=PropertyChanged}" />
+            Margin="0,0,0,10"
+            ColumnDefinitions="Auto,Auto,*"
+            RowDefinitions="Auto">
+            <TextBlock
+                Grid.Column="0"
+                VerticalAlignment="Center"
+                Text="Memory:" />
+
+            <TextBox
+                Grid.Column="1"
+                Width="80"
+                Margin="8,0"
+                Text="{Binding Path=MemoryText, UpdateSourceTrigger=PropertyChanged}" />
+
+            <TextBox
+                x:Name="ExpressionBox"
+                Grid.Column="2"
+                Width="Auto"
+                HorizontalContentAlignment="Stretch"
+                FontSize="20"
+                KeyDown="ExpressionBox_KeyDown"
+                Text="{Binding Path=ExpressionText, UpdateSourceTrigger=PropertyChanged}" />
+        </Grid>
 
         <!--  Fehler  -->
         <TextBlock

@@ -52,6 +52,16 @@ namespace System.Windows.Calculator
             set => base.SetValue(value);
         }
 
+        public double MemoryValue
+        {
+            get => _engine.MemoryValue;
+            set
+            {
+                _engine.MemoryValue = value;
+                base.OnPropertyChanged();
+            }
+        }
+
         public void EvaluateExpression()
         {
             ErrorText = string.Empty;

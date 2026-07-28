@@ -113,7 +113,7 @@
             this.OnPropertyChanged(property);
         }
 
-        protected virtual void OnPropertyChanged(string propertyName)
+        protected virtual void OnPropertyChanged([CallerMemberName]  string propertyName = "")
         {
             var eventHandler = this.PropertyChanged;
             if (eventHandler != null)

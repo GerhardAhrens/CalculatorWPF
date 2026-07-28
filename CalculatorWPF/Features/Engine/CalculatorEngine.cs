@@ -17,7 +17,7 @@
             _functionRegistry = new FunctionRegistry();
             _variableRegistry = new VariableRegistry();
             this._functionRegistry.Register(new SqrtFunction());
-            _evaluator = new Evaluator(_functionRegistry, _variableRegistry);
+            _evaluator = new Evaluator(this, _functionRegistry);
         }
 
         public double Evaluate(string expression)
