@@ -39,9 +39,9 @@
 
             <TextBox
                 Grid.Column="1"
-                Width="80"
+                Width="40"
                 Margin="8,0"
-                Text="{Binding Path=MemoryText, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding Path=MemoryValue, UpdateSourceTrigger=PropertyChanged}" />
 
             <TextBox
                 x:Name="ExpressionBox"

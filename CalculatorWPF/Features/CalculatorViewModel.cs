@@ -31,7 +31,12 @@ namespace System.Windows.Calculator
         public string DisplayText
         {
             get => base.GetValue<string>();
-            set => base.SetValue(value);
+            set => base.SetValue(value, this.SetValueMemory);
+        }
+
+        private void SetValueMemory(string arg1, string arg2)
+        {
+            this.MemoryValue = Convert.ToDouble(arg1);
         }
 
         public string ExpressionText
