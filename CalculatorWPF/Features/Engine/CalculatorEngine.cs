@@ -4,14 +4,16 @@
 
     public class CalculatorEngine
     {
-        private readonly FunctionRegistry _registry = new();
         private readonly Tokenizer _tokenizer = new();
         private readonly Parser _parser = new();
-        private readonly Evaluator _evaluator = new();
+        private readonly FunctionRegistry _registry;
+        private readonly Evaluator _evaluator;
 
         public CalculatorEngine()
         {
+            this._registry = new FunctionRegistry();
             this._registry.Register(new SqrtFunction());
+            this._evaluator = new Evaluator(_registry);
         }
 
         public double Evaluate(string expression)

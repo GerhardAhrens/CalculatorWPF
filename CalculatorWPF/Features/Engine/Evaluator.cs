@@ -2,6 +2,13 @@
 {
     public class Evaluator
     {
+        private readonly FunctionRegistry _registry;
+
+        public Evaluator(FunctionRegistry registry)
+        {
+            _registry = registry;
+        }
+
         public double Evaluate(ExpressionNode node)
         {
             switch (node)
@@ -14,6 +21,9 @@
 
                 case BinaryExpression binary:
                     return EvaluateBinary(binary);
+
+                case FunctionExpression function:
+                    return EvaluateFunction(function);
 
                 default:
                     throw new EvaluationException($"Unbekannter Knotentyp '{node.GetType().Name}'.");
@@ -75,11 +85,36 @@
 
                     return left / right;
 
+                case BinaryOperator.Power:
+                    return Math.Pow(left, right);
+
                 default:
                     throw new EvaluationException($"Unbekannter Operator '{binary.Operator}'.");
             }
         }
 
         #endregion
+
+        private double EvaluateFunction(FunctionExpression function)
+        {
+            if (!_registry.TryGetFunction(function.Name, out var calculatorFunction))
+            {
+                throw new EvaluationException($"Unbekannte Funktion '{function.Name}'.");
+            }
+
+            if (calculatorFunction.ParameterCount != function.Parameters.Count)
+            {
+                throw new EvaluationException($"Funktion '{function.Name}' erwartet {calculatorFunction.ParameterCount} Parameter.");
+            }
+
+            double[] values = new double[function.Parameters.Count];
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                values[i] = Evaluate(function.Parameters[i]);
+            }
+
+            return calculatorFunction.Execute(values);
+        }
     }
 }

@@ -79,12 +79,7 @@
 
                 ExpressionNode right = ParseUnary();
 
-                left = new BinaryExpression(
-                    left,
-                    op == TokenType.Multiply
-                        ? BinaryOperator.Multiply
-                        : BinaryOperator.Divide,
-                    right);
+                left = new BinaryExpression(left, op == TokenType.Multiply ? BinaryOperator.Multiply : BinaryOperator.Divide, right);
             }
 
             return left;
@@ -100,24 +95,36 @@
             {
                 Next();
 
-                return new UnaryExpression(
-                    TokenType.Plus,
-                    ParseUnary());
+                return new UnaryExpression(TokenType.Plus, ParseUnary());
             }
 
             if (Current.Type == TokenType.Minus)
             {
                 Next();
 
-                return new UnaryExpression(
-                    TokenType.Minus,
-                    ParseUnary());
+                return new UnaryExpression(TokenType.Minus, ParseUnary());
             }
 
-            return ParsePrimary();
+            return ParsePower();
         }
 
         #endregion
+
+        private ExpressionNode ParsePower()
+        {
+            ExpressionNode left = ParsePrimary();
+
+            if (Current.Type == TokenType.Power)
+            {
+                Next();
+
+                ExpressionNode right = ParsePower();
+
+                return new BinaryExpression(left, BinaryOperator.Power, right);
+            }
+
+            return left;
+        }
 
         #region Primary
 
@@ -125,9 +132,7 @@
         {
             if (Current.Type == TokenType.Number)
             {
-                double value = double.Parse(
-                    Current.Text,
-                    CultureInfo.InvariantCulture);
+                double value = double.Parse(Current.Text, CultureInfo.InvariantCulture);
 
                 Next();
 
@@ -145,8 +150,12 @@
                 return expression;
             }
 
-            throw new ParserException(
-                $"Unerwartetes Token '{Current.Text}'.");
+            if (Current.Type == TokenType.Identifier)
+            {
+                return ParseFunction();
+            }
+
+            throw new ParserException($"Unerwartetes Token '{Current.Text}'.");
         }
 
         #endregion
@@ -173,5 +182,33 @@
         }
 
         #endregion
+
+        private FunctionExpression ParseFunction()
+        {
+            string functionName = Current.Text;
+
+            Next();
+
+            Expect(TokenType.LeftParenthesis);
+
+            List<ExpressionNode> parameters = new();
+
+            // mindestens ein Parameter
+            if (Current.Type != TokenType.RightParenthesis)
+            {
+                parameters.Add(ParseExpression());
+
+                while (Current.Type == TokenType.Comma)
+                {
+                    Next();
+
+                    parameters.Add(ParseExpression());
+                }
+            }
+
+            Expect(TokenType.RightParenthesis);
+
+            return new FunctionExpression(functionName, parameters);
+        }
     }
 }
