@@ -1,5 +1,6 @@
 ﻿namespace System.Windows.Calculator
 {
+    using System.Globalization;
     using System.Windows;
     using System.Windows.Controls;
 
@@ -10,12 +11,14 @@
     /// </summary>
     public partial class ClassicCalculatorView : UserControlBase
     {
-        //private double _currentValue;
-        //private double _storedValue;
-        //private string _pendingOperator;
-
+        private double _currentValue;
+        private double _storedValue;
+        private string _pendingOperator;
+        private bool _lastOperationWasEquals;
+        private double _rightOperand;
+        private double _leftOperand;
         private bool _isNewInput;
-        //private bool _hasStoredValue;
+        private bool _hasStoredValue;
 
         public ClassicCalculatorView() : base(typeof(ClassicCalculatorView))
         {
@@ -25,9 +28,29 @@
 
         public CommandBase InputCommand { get; private set; }
 
+        public string DisplayText
+        {
+            get => base.GetValue<string>();
+            set => base.SetValue(value);
+        }
+
+        private double CurrentValue
+        {
+            get
+            {
+                if (double.TryParse(this.DisplayText, CultureInfo.CurrentCulture, out double value))
+                {
+                    return value;
+                }
+
+                return 0;
+            }
+        }
+
         private async void OnLoaded(object sender, RoutedEventArgs e)
         {
             this.InputCommand = new CommandBase(commandParam => this.OnInput(commandParam), () => true);
+            this.DisplayText = "0";
             this.DataContext = this;
         }
 
@@ -36,41 +59,41 @@
             string key = commandParam as string;
             if (char.IsDigit(key[0]))
             {
-                ProcessDigit(key);
+                this.ProcessDigit(key);
                 return;
             }
 
             switch (key)
             {
                 case ",":
-                    //ProcessDecimalSeparator();
+                    this.ProcessDecimalSeparator();
                     break;
 
                 case "±":
-                    //ToggleSign();
+                    this.ToggleSign();
                     break;
 
                 case "⌫":
-                    //Backspace();
+                    this.Backspace();
                     break;
 
                 case "C":
-                    //ClearAll();
+                    this.ClearAll();
                     break;
 
                 case "CE":
-                    //ClearEntry();
+                    this.ClearEntry();
                     break;
 
                 case "+":
                 case "-":
                 case "×":
                 case "÷":
-                    //ProcessOperator(key);
+                    this.ProcessOperator(key);
                     break;
 
                 case "=":
-                    //Calculate();
+                    this.Calculate();
                     break;
             }
         }
@@ -79,20 +102,143 @@
         {
             if (this._isNewInput)
             {
-                this.DisplayText.Text = digit;
+                this.DisplayText = digit;
                 this._isNewInput = false;
             }
             else
             {
-                if (this.DisplayText.Text == "0")
+                if (this.DisplayText == "0")
                 {
-                    this.DisplayText.Text = digit;
+                    this.DisplayText = digit;
                 }
                 else
                 {
-                    this.DisplayText.Text += digit;
+                    this.DisplayText += digit;
                 }
             }
+        }
+
+        private void ProcessDecimalSeparator()
+        {
+            if (_isNewInput)
+            {
+                this.DisplayText = "0,";
+                this._isNewInput = false;
+                return;
+            }
+
+            if (this.DisplayText.Contains(',') == false)
+            {
+                this.DisplayText += ",";
+            }
+        }
+
+        private void Backspace()
+        {
+            if (this._isNewInput)
+                return;
+
+            if (this.DisplayText.Length <= 1)
+            {
+                this.DisplayText = "0";
+                this._isNewInput = true;
+                return;
+            }
+
+            if (this.DisplayText.Length == 2 && this.DisplayText.StartsWith("-"))
+            {
+                this.DisplayText = "0";
+                _isNewInput = true;
+                return;
+            }
+
+            this.DisplayText = this.DisplayText[..^1];
+
+            if (this.DisplayText == "-" || this.DisplayText == string.Empty)
+            {
+                this.DisplayText = "0";
+                _isNewInput = true;
+            }
+        }
+
+        private void ToggleSign()
+        {
+            if (this.DisplayText == "0")
+                return;
+
+            if (this.DisplayText.StartsWith("-"))
+                this.DisplayText = this.DisplayText[1..];
+            else
+                this.DisplayText = "-" + this.DisplayText;
+        }
+
+        private void ClearEntry()
+        {
+            this.DisplayText = "0";
+            this._isNewInput = true;
+        }
+
+        private void ClearAll()
+        {
+            this.DisplayText = "0";
+
+            _leftOperand = 0;
+            _rightOperand = 0;
+
+            _pendingOperator = null;
+
+            this._isNewInput = true;
+        }
+
+        private void ProcessOperator(string op)
+        {
+            if (this._hasStoredValue == false)
+            {
+                this._leftOperand = CurrentValue;
+                this._hasStoredValue = true;
+            }
+
+            _pendingOperator = op;
+            _isNewInput = true;
+            _lastOperationWasEquals = false;
+        }
+
+        private void Calculate()
+        {
+            if (!_hasStoredValue || string.IsNullOrEmpty(_pendingOperator))
+            {
+                return;
+            }
+
+            double right = CurrentValue;
+            double result = _leftOperand;
+
+            switch (this._pendingOperator)
+            {
+                case "+":
+                    result += right;
+                    break;
+
+                case "-":
+                    result -= right;
+                    break;
+
+                case "×":
+                    double tempResult = right * result;
+                    result = tempResult;
+                    break;
+
+                case "÷":
+                    result /= right;
+                    break;
+            }
+
+            this.DisplayText = result.ToString();
+
+            this._leftOperand = result;
+            this._pendingOperator = null;
+            this._isNewInput = true;
+            this._lastOperationWasEquals = true;
         }
     }
 }
