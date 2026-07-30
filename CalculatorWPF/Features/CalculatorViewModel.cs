@@ -73,8 +73,14 @@ namespace System.Windows.Calculator
 
             try
             {
-                this.Result = _engine.Evaluate(ExpressionText);
-                this.DisplayText = Result.ToString();
+                CalculatorValue value = _engine.Evaluate(ExpressionText);
+
+                DisplayText = value.ToString();
+
+                if (value.IsNumber)
+                {
+                    Result = value;
+                }
             }
             catch (TokenizerException ex)
             {
@@ -90,7 +96,8 @@ namespace System.Windows.Calculator
             }
             catch (Exception ex)
             {
-                ErrorText = ex.Message;
+                //ErrorText = ex.Message;
+                ErrorText = $"{ex.GetType().Name}\r\n{ex.Message}\r\n{ex.StackTrace}";
             }
         }
     }

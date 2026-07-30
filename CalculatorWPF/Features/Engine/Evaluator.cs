@@ -11,42 +11,32 @@
             _functionRegistry = functionRegistry;
         }
 
-        public double Evaluate(ExpressionNode node)
+        public CalculatorValue Evaluate(ExpressionNode node)
         {
-            switch (node)
+            return node switch
             {
-                case NumberExpression number:
-                    return EvaluateNumber(number);
+                NumberExpression n => EvaluateNumber(n),
+                VariableExpression v => EvaluateVariable(v),
+                UnaryExpression u => EvaluateUnary(u),
+                BinaryExpression b => EvaluateBinary(b),
+                FunctionExpression f => EvaluateFunction(f),
 
-                case UnaryExpression unary:
-                    return EvaluateUnary(unary);
-
-                case BinaryExpression binary:
-                    return EvaluateBinary(binary);
-
-                case FunctionExpression function:
-                    return EvaluateFunction(function);
-
-                case VariableExpression variable:
-                    return EvaluateVariable(variable);
-
-                default:
-                    throw new EvaluationException($"Unbekannter Knotentyp '{node.GetType().Name}'.");
-            }
+                _ => throw new EvaluationException("Unbekannter Ausdruck.")
+            };
         }
 
         #region Number
 
-        private double EvaluateNumber(NumberExpression number)
+        private CalculatorValue EvaluateNumber(NumberExpression expression)
         {
-            return number.Value;
+            return expression.Value;
         }
 
         #endregion
 
         #region Unary
 
-        private double EvaluateUnary(UnaryExpression unary)
+        private CalculatorValue EvaluateUnary(UnaryExpression unary)
         {
             double value = Evaluate(unary.Operand);
 
@@ -67,7 +57,7 @@
 
         #region Binary
 
-        private double EvaluateBinary(BinaryExpression binary)
+        private CalculatorValue EvaluateBinary(BinaryExpression binary)
         {
             double left = Evaluate(binary.Left);
             double right = Evaluate(binary.Right);
@@ -100,7 +90,7 @@
 
         #endregion
 
-        private double EvaluateFunction(FunctionExpression function)
+        private CalculatorValue EvaluateFunction(FunctionExpression function)
         {
             if (!_functionRegistry.TryGetFunction(function.Name, out var calculatorFunction))
             {
@@ -112,7 +102,7 @@
                 throw new EvaluationException($"Funktion '{function.Name}' erwartet {calculatorFunction.ParameterCount} Parameter.");
             }
 
-            double[] values = new double[function.Parameters.Count];
+            CalculatorValue[] values = new CalculatorValue[function.Parameters.Count];
 
             for (int i = 0; i < values.Length; i++)
             {
@@ -122,7 +112,7 @@
             return calculatorFunction.Execute(values);
         }
 
-        private double EvaluateVariable(VariableExpression variable)
+        private CalculatorValue EvaluateVariable(VariableExpression variable)
         {
             if (_engine.TryGetValue(variable.Name, out double value))
             {

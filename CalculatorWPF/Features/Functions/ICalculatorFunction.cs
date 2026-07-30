@@ -6,6 +6,8 @@
 
         int ParameterCount { get; }
 
-        double Execute(params double[] parameters);
+        //double Execute(params double[] parameters);
+
+        CalculatorValue Execute(params CalculatorValue[] parameters);
     }
 }

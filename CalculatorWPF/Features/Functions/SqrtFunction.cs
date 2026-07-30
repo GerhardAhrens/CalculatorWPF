@@ -8,11 +8,16 @@
 
         public int ParameterCount => 1;
 
-        public double Execute(params double[] parameters)
+        public CalculatorValue Execute(params CalculatorValue[] parameters)
         {
             if (parameters.Length != 1)
             {
                 throw new ArgumentException("sqrt erwartet genau einen Parameter.");
+            }
+
+            if (parameters[0].IsNumber == false)
+            {
+                throw new EvaluationException("Erster Parameter muss numerisch sein.");
             }
 
             return Math.Sqrt(parameters[0]);

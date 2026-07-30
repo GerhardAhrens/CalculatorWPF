@@ -19,6 +19,7 @@
             this._functionRegistry.Register(new BruttoFunction());
             this._functionRegistry.Register(new NettoFunction());
             this._functionRegistry.Register(new RabattFunction());
+            this._functionRegistry.Register(new HeuteFunction());
             _evaluator = new Evaluator(this, _functionRegistry);
 
             _valueRegistry.Register("MwSt", () => 19);
@@ -32,13 +33,13 @@
             return _valueRegistry.TryGetValue(name, out value);
         }
 
-        public double Evaluate(string expression)
+        public CalculatorValue Evaluate(string expression)
         {
-            List<Token> tokens = this._tokenizer.Tokenize(expression);
+            List<Token> tokens = _tokenizer.Tokenize(expression);
 
-            ExpressionNode tree = this._parser.Parse(tokens);
+            ExpressionNode tree = _parser.Parse(tokens);
 
-            return this._evaluator.Evaluate(tree);
+            return _evaluator.Evaluate(tree);
         }
     }
 }
