@@ -154,7 +154,7 @@
         </Border>
 
         <ContentControl Grid.Row="1">
-            <calculator:CalculatorControl Mode="Classic" />
+            <calculator:CalculatorControl Mode="Expression" />
         </ContentControl>
 
 

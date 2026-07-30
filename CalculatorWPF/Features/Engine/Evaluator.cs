@@ -4,7 +4,6 @@
     {
         private readonly CalculatorEngine _engine;
         private readonly FunctionRegistry _functionRegistry;
-        //private readonly VariableRegistry _variableRegistry;
 
         public Evaluator(CalculatorEngine engine, FunctionRegistry functionRegistry)
         {
@@ -125,8 +124,10 @@
 
         private double EvaluateVariable(VariableExpression variable)
         {
-            if (variable.Name.Equals("M", StringComparison.OrdinalIgnoreCase))
-                return _engine.MemoryValue;
+            if (_engine.TryGetValue(variable.Name, out double value))
+            {
+                return value;
+            }
 
             throw new EvaluationException($"Unbekannte Variable '{variable.Name}'.");
         }
