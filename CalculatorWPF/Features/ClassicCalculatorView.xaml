@@ -16,6 +16,8 @@
             <Setter Property="MinHeight" Value="42" />
             <Setter Property="FontSize" Value="18" />
             <Setter Property="FontWeight" Value="Medium" />
+            <!--  Aktiviert das Verhalten im Hintergrund  -->
+            <Setter Property="local:ButtonKeyBehavior.RegisterKey" Value="True" />
         </Style>
     </UserControl.Resources>
 
