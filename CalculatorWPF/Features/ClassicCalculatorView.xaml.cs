@@ -3,6 +3,7 @@
     using System.Globalization;
     using System.Windows;
     using System.Windows.Controls;
+    using System.Windows.Data;
 
     using CalculatorWPF;
 
@@ -11,14 +12,19 @@
     /// </summary>
     public partial class ClassicCalculatorView : UserControlBase
     {
-        private double _currentValue;
-        private double _storedValue;
+        private const string ERRORTEXT = "Fehler";
         private string _pendingOperator;
         private bool _lastOperationWasEquals;
-        private double _rightOperand;
+        private double _lastRightOperand;
+        private string _lastOperator;
+        //private double _rightOperand;
+        private bool _hasError;
         private double _leftOperand;
         private bool _isNewInput;
         private bool _hasStoredValue;
+        private double _memoryValue;
+        private bool _memoryStored;
+
 
         public ClassicCalculatorView() : base(typeof(ClassicCalculatorView))
         {
@@ -47,19 +53,64 @@
             }
         }
 
+        public bool HasMemory { get { return this._memoryStored; } }
+
         private async void OnLoaded(object sender, RoutedEventArgs e)
         {
-            this.InputCommand = new CommandBase(commandParam => this.OnInput(commandParam), () => true);
+            this.InputCommand = new CommandBase(commandParam => this.OnProcessInput(commandParam), () => true);
             this.DisplayText = "0";
             this.DataContext = this;
         }
 
-        private void OnInput(object commandParam)
+        private void OnProcessInput(object commandParam)
         {
             string key = commandParam as string;
-            if (char.IsDigit(key[0]))
+
+            if (this._hasError == true)
             {
-                this.ProcessDigit(key);
+                switch (key)
+                {
+                    case "C":
+                    case "CE":
+                        this.ClearAll();
+                        return;
+
+                    case "MC":
+                        this.MemoryClear();
+                        return;
+
+                    case "MR":
+                        this.MemoryRecall();
+                        _hasError = false;
+                        return;
+
+                    case "MS":
+                        this.MemoryStore();
+                        _hasError = false;
+                        return;
+
+                    case "M+":
+                        this.MemoryAdd();
+                        return;
+
+                    case "M-":
+                        this.MemorySubtract();
+                        return;
+                }
+
+                if (key.Length == 1 && char.IsDigit(key[0]))
+                {
+                    this.ClearAll();
+                }
+                else
+                {
+                    return;
+                }
+            }
+
+            if (key.Length == 1 && key[0] >= '0' && key[0] <= '9')
+            {
+                ProcessDigit(key);
                 return;
             }
 
@@ -92,14 +143,59 @@
                     this.ProcessOperator(key);
                     break;
 
+                case "√x":
+                    this.SquareRoot();
+                    break;
+
+                case "1/x":
+                    this.Reciprocal();
+                    break;
+
+
+                case "x²":
+                    Square();
+                    break;
+
+                case "%":
+                    this.Percent();
+                    break;
+
                 case "=":
                     this.Calculate();
+                    break;
+
+                case "MC":
+                    this.MemoryClear();
+                    break;
+
+                case "MR":
+                    this.MemoryRecall();
+                    break;
+
+                case "MS":
+                    this.MemoryStore();
+                    break;
+
+                case "M+":
+                    this.MemoryAdd();
+                    break;
+
+                case "M-":
+                    this.MemorySubtract();
                     break;
             }
         }
 
         private void ProcessDigit(string digit)
         {
+            if (this._lastOperationWasEquals && string.IsNullOrEmpty(this._pendingOperator))
+            {
+                this._lastOperationWasEquals = false;
+                this._lastOperator = null;
+                this._lastRightOperand = 0;
+                this._leftOperand = 0;
+            }
+
             if (this._isNewInput)
             {
                 this.DisplayText = digit;
@@ -133,6 +229,46 @@
             }
         }
 
+        private void Calculate()
+        {
+            if (_hasError == true)
+            {
+                return;
+            }
+
+            // Wiederholtes "="
+            if (string.IsNullOrEmpty(_pendingOperator))
+            {
+                if (string.IsNullOrEmpty(_lastOperator))
+                    return;
+
+                double result = ExecuteOperation(_leftOperand, _lastRightOperand,_lastOperator);
+
+                _leftOperand = result;
+                DisplayText = result.ToString();
+                _isNewInput = true;
+
+                return;
+            }
+
+            // Normale Berechnung
+            double right = CurrentValue;
+
+            _lastRightOperand = right;
+            _lastOperator = _pendingOperator;
+
+            double calcResult = ExecuteOperation(_leftOperand, right, _pendingOperator);
+
+            _leftOperand = calcResult;
+
+            DisplayText = calcResult.ToString();
+
+            _pendingOperator = null;
+
+            _isNewInput = true;
+            _lastOperationWasEquals = true;
+        }
+
         private void Backspace()
         {
             if (this._isNewInput)
@@ -163,31 +299,54 @@
 
         private void ToggleSign()
         {
-            if (this.DisplayText == "0")
-                return;
+            double value = CurrentValue;
 
-            if (this.DisplayText.StartsWith("-"))
-                this.DisplayText = this.DisplayText[1..];
-            else
-                this.DisplayText = "-" + this.DisplayText;
+            if (value == 0)
+            {
+                return;
+            }
+
+            value = -value;
+
+            this.DisplayText = value.ToString();
         }
 
         private void ClearEntry()
         {
             this.DisplayText = "0";
             this._isNewInput = true;
+
+            if (this._lastOperationWasEquals)
+            {
+                this._lastOperationWasEquals = false;
+                this._lastOperator = null;
+                this._lastRightOperand = 0;
+            }
+
+            if (this._hasError == true)
+            {
+                this.ClearAll();
+                return;
+            }
         }
 
         private void ClearAll()
         {
             this.DisplayText = "0";
 
-            _leftOperand = 0;
-            _rightOperand = 0;
+            this._leftOperand = 0;
+            //this._rightOperand = 0;
 
-            _pendingOperator = null;
+            this._pendingOperator = null;
 
+            this._hasStoredValue = false;
             this._isNewInput = true;
+
+            this._lastOperationWasEquals = false;
+
+            this._lastRightOperand = 0;
+            this._lastOperator = null;
+            this._hasError = false;
         }
 
         private void ProcessOperator(string op)
@@ -197,48 +356,210 @@
                 this._leftOperand = CurrentValue;
                 this._hasStoredValue = true;
             }
+            else if (this._isNewInput == false)
+            {
+                this.ExecutePendingOperation(this._pendingOperator!);
+            }
 
-            _pendingOperator = op;
-            _isNewInput = true;
-            _lastOperationWasEquals = false;
+            this._pendingOperator = op;
+            this._isNewInput = true;
+            this._lastOperationWasEquals = false;
         }
 
-        private void Calculate()
+        private double ExecuteOperation(double left,double right, string op)
         {
-            if (!_hasStoredValue || string.IsNullOrEmpty(_pendingOperator))
+            switch (op)
             {
+                case "+":
+                    return left + right;
+
+                case "-":
+                    return left - right;
+
+                case "×":
+                    return left * right;
+
+                case "÷":
+                    if (right == 0)
+                    {
+                        this.SetError();
+                        return 0;
+                    }
+
+                    return left / right;
+
+                default:
+                    throw new InvalidOperationException($"Unbekannter Operator '{op}'.");
+            }
+        }
+
+        private bool ExecutePendingOperation(string op)
+        {
+            if (!_hasStoredValue)
+                return false;
+
+            double result = ExecuteOperation(_leftOperand, CurrentValue, op);
+
+            _leftOperand = result;
+            DisplayText = result.ToString();
+
+            return true;
+        }
+
+        private void SquareRoot()
+        {
+            double value = CurrentValue;
+
+            if (value < 0)
+            {
+                this.SetError();
                 return;
             }
 
-            double right = CurrentValue;
-            double result = _leftOperand;
+            value = Math.Sqrt(value);
+
+            DisplayText = value.ToString(CultureInfo.CurrentCulture);
+
+            // Die Wurzel ist jetzt der aktuelle Eingabewert.
+            _isNewInput = false;
+        }
+
+        private void Square()
+        {
+            double value = CurrentValue;
+
+            value *= value;
+
+            DisplayText = value.ToString(CultureInfo.CurrentCulture);
+
+            _isNewInput = false;
+        }
+
+        private void Reciprocal()
+        {
+            double value = CurrentValue;
+
+            if (value == 0)
+            {
+                this.SetError();
+                return;
+            }
+
+            value = 1 / value;
+
+            this.DisplayText = value.ToString(CultureInfo.CurrentCulture);
+
+            this._isNewInput = false;
+        }
+
+        private void SetError()
+        {
+            this.DisplayText = ERRORTEXT;
+
+            this._hasError = true;
+
+            this._leftOperand = 0;
+            //this._rightOperand = 0;
+
+            this._pendingOperator = null;
+
+            this._hasStoredValue = false;
+            this._isNewInput = true;
+
+            this._lastOperationWasEquals = false;
+            this._lastOperator = null;
+            this._lastRightOperand = 0;
+        }
+
+        private void Percent()
+        {
+            if (!this._hasStoredValue || string.IsNullOrEmpty(this._pendingOperator))
+                return;
+
+            double value = CurrentValue;
 
             switch (this._pendingOperator)
             {
                 case "+":
-                    result += right;
-                    break;
-
                 case "-":
-                    result -= right;
+                    value = this._leftOperand * value / 100.0;
                     break;
 
                 case "×":
-                    double tempResult = right * result;
-                    result = tempResult;
-                    break;
-
                 case "÷":
-                    result /= right;
+                    value /= 100.0;
                     break;
             }
 
-            this.DisplayText = result.ToString();
+            this.DisplayText = value.ToString(CultureInfo.CurrentCulture);
+            this._isNewInput = false;
+        }
 
-            this._leftOperand = result;
-            this._pendingOperator = null;
+        #region Memeory Verhalten
+        private void MemoryStore()
+        {
+            this._memoryValue = CurrentValue;
+            this._memoryStored = true;
+
+            this.OnPropertyChanged(nameof(HasMemory));
+
             this._isNewInput = true;
-            this._lastOperationWasEquals = true;
+        }
+
+        private void MemoryRecall()
+        {
+            if (_memoryStored == false)
+            {
+                return;
+            }
+
+            this.DisplayText = _memoryValue.ToString(CultureInfo.CurrentCulture);
+
+            this._isNewInput = true;
+        }
+
+        private void MemoryClear()
+        {
+            this._memoryValue = 0;
+            this._memoryStored = false;
+
+            this.OnPropertyChanged(nameof(HasMemory));
+        }
+
+        private void MemoryAdd()
+        {
+            this._memoryValue += CurrentValue;
+            this._memoryStored = true;
+
+            this.OnPropertyChanged(nameof(HasMemory));
+
+            this._isNewInput = true;
+        }
+
+        private void MemorySubtract()
+        {
+            this._memoryValue -= CurrentValue;
+            this._memoryStored = true;
+
+            this.OnPropertyChanged(nameof(HasMemory));
+
+            this._isNewInput = true;
+        }
+        #endregion Memeory Verhalten
+    }
+
+    public class BoolToVisibilityConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value is bool b && b
+                ? Visibility.Visible
+                : Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value is Visibility visibility && visibility == Visibility.Visible;
         }
     }
 }
