@@ -16,6 +16,9 @@
         {
             _functionRegistry = new FunctionRegistry();
             this._functionRegistry.Register(new SqrtFunction());
+            this._functionRegistry.Register(new BruttoFunction());
+            this._functionRegistry.Register(new NettoFunction());
+            this._functionRegistry.Register(new RabattFunction());
             _evaluator = new Evaluator(this, _functionRegistry);
 
             _valueRegistry.Register("MwSt", () => 19);
