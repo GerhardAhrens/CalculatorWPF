@@ -17,6 +17,7 @@
         public CalculatorEngine()
         {
             _functionRegistry = new FunctionRegistry();
+            this._functionRegistry.Register(new IfFunction());
             this._functionRegistry.Register(new SqrtFunction());
             this._functionRegistry.Register(new BruttoFunction());
             this._functionRegistry.Register(new NettoFunction());
