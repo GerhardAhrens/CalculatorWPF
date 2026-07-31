@@ -59,35 +59,96 @@
 
         private CalculatorValue EvaluateBinary(BinaryExpression binary)
         {
-            double left = Evaluate(binary.Left);
-            double right = Evaluate(binary.Right);
+            CalculatorValue left = Evaluate(binary.Left);
+            CalculatorValue right = Evaluate(binary.Right);
 
             switch (binary.Operator)
             {
                 case BinaryOperator.Add:
-                    return left + right;
+                    return Add(left, right);
 
                 case BinaryOperator.Subtract:
-                    return left - right;
+                    return Subtract(left, right);
 
                 case BinaryOperator.Multiply:
-                    return left * right;
+                    return Multiply(left, right);
 
                 case BinaryOperator.Divide:
-
-                    if (right == 0)
-                        throw new EvaluationException("Division durch Null.");
-
-                    return left / right;
+                    return Divide(left, right);
 
                 case BinaryOperator.Power:
-                    return Math.Pow(left, right);
+                    return Power(left, right);
 
                 default:
-                    throw new EvaluationException($"Unbekannter Operator '{binary.Operator}'.");
+                    throw new EvaluationException(
+                        $"Unbekannter Operator '{binary.Operator}'.");
             }
         }
 
+        private CalculatorValue Add(CalculatorValue left, CalculatorValue right)
+        {
+            // Zahl + Zahl
+            if (left.IsNumber && right.IsNumber)
+                return left.AsNumber() + right.AsNumber();
+
+            // Datum + Tage
+            if (left.IsDateTime && right.IsNumber)
+                return left.AsDateTime().AddDays(right.AsNumber());
+
+            // Tage + Datum
+            if (left.IsNumber && right.IsDateTime)
+                return right.AsDateTime().AddDays(left.AsNumber());
+
+            // String + String (optional)
+            if (left.IsString && right.IsString)
+                return left.AsString() + right.AsString();
+
+            throw new EvaluationException("Operator '+' kann mit diesen Datentypen nicht verwendet werden.");
+        }
+
+        private CalculatorValue Subtract(CalculatorValue left, CalculatorValue right)
+        {
+            // Zahl - Zahl
+            if (left.IsNumber && right.IsNumber)
+                return left.AsNumber() - right.AsNumber();
+
+            // Datum - Tage
+            if (left.IsDateTime && right.IsNumber)
+                return left.AsDateTime().AddDays(-right.AsNumber());
+
+            // Datum - Datum = Tage
+            if (left.IsDateTime && right.IsDateTime)
+                return (left.AsDateTime() - right.AsDateTime()).TotalDays;
+
+            throw new EvaluationException("Operator '-' kann mit diesen Datentypen nicht verwendet werden.");
+        }
+
+        private CalculatorValue Multiply(CalculatorValue left, CalculatorValue right)
+        {
+            if (left.IsNumber && right.IsNumber)
+                return left.AsNumber() * right.AsNumber();
+
+            throw new EvaluationException("Operator '*' kann mit diesen Datentypen nicht verwendet werden.");
+        }
+
+        private CalculatorValue Divide(CalculatorValue left, CalculatorValue right)
+        {
+            if (!left.IsNumber || !right.IsNumber)
+                throw new EvaluationException("Operator '/' kann nur mit Zahlen verwendet werden.");
+
+            if (right.AsNumber() == 0)
+                throw new EvaluationException("Division durch Null.");
+
+            return left.AsNumber() / right.AsNumber();
+        }
+
+        private CalculatorValue Power(CalculatorValue left, CalculatorValue right)
+        {
+            if (!left.IsNumber || !right.IsNumber)
+                throw new EvaluationException("Operator '^' kann nur mit Zahlen verwendet werden.");
+
+            return Math.Pow(left.AsNumber(), right.AsNumber());
+        }
         #endregion
 
         #region String
