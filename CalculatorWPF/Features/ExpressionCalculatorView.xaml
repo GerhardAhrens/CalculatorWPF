@@ -50,6 +50,7 @@
                 HorizontalContentAlignment="Stretch"
                 FontSize="20"
                 KeyDown="ExpressionBox_KeyDown"
+                PreviewKeyDown="ExpressionBox_PreviewKeyDown"
                 Text="{Binding Path=ExpressionText, UpdateSourceTrigger=PropertyChanged}" />
         </Grid>
 
