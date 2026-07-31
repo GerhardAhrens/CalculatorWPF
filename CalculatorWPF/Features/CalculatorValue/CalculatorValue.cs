@@ -32,6 +32,44 @@
 
         public static CalculatorValue From(DateTime value) => new(CalculatorValueType.DateTime, value);
 
+        public static CalculatorValue From(object value)
+        {
+            if (value == null || value == DBNull.Value)
+            {
+                return Null;
+            }
+
+            return value switch
+            {
+                CalculatorValue cv => cv,
+
+                string s => From(s),
+
+                int i => From((double)i),
+
+                long l => From((double)l),
+
+                short s => From((double)s),
+
+                float f => From((double)f),
+
+                double d => From(d),
+
+                decimal m => From((double)m),
+
+                bool b => From(b),
+
+                DateTime dt => From(dt),
+
+                _ => From(value.ToString())
+            };
+        }
+
+        public object ToObject()
+        {
+            return _value;
+        }
+
         public double AsNumber()
         {
             if (Type != CalculatorValueType.Number)

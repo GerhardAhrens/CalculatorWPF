@@ -105,9 +105,16 @@
                 throw new EvaluationException($"Unbekannte Funktion '{function.Name}'.");
             }
 
-            if (calculatorFunction.ParameterCount != function.Parameters.Count)
+            // TODO: Parameter anpassen
+            /* Erweiterung der Parameter
+            if (function.Parameters.Count < calculatorFunction.MinParameterCount || function.Parameters.Count > calculatorFunction.MaxParameterCount)
             {
-                throw new EvaluationException($"Funktion '{function.Name}' erwartet {calculatorFunction.ParameterCount} Parameter.");
+            }
+            */
+
+            if (calculatorFunction.ParameterCount >= 0 && function.Parameters.Count != calculatorFunction.ParameterCount)
+            {
+                throw new EvaluationException($"Funktion {function.Name}() erwartet {calculatorFunction.ParameterCount} Parameter.");
             }
 
             CalculatorValue[] values = new CalculatorValue[function.Parameters.Count];

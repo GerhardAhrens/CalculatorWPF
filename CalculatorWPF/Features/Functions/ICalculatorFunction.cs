@@ -6,8 +6,11 @@
 
         int ParameterCount { get; }
 
-        //double Execute(params double[] parameters);
-
+        // TODO: Parameter anpassen
+        /*
+        int MinParameterCount { get; }
+        int MaxParameterCount { get; }
+        */
         CalculatorValue Execute(params CalculatorValue[] parameters);
     }
 }

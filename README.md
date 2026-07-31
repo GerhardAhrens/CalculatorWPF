@@ -6,7 +6,7 @@
 ![Version](https://img.shields.io/badge/Version-1.0.2026.0-yellow.svg)
 
 # Projekt
-Dieses Demo dient dazu eine UserControl mit einem Rechner zu erstellen, der einen Mode als klassischen Taschenrechner aber umgeschaltet auf einen Rechner mit einer Eingabezeile. Die Rechecnfunktionen sollen erweiterbar sein. 
+Dieses Demo dient dazu eine UserControl mit einem Rechner zu erstellen, der einen Mode als klassischen Taschenrechner aber umgeschaltet auf einen Rechner mit einer Eingabezeile. Die Rechenfunktionen sollen erweiterbar sein. 
 
 ![Version](https://img.shields.io/badge/Version-1.0.2026.8-yellow.svg)
 - Erste Erstellung Version vom 22.07 2026

@@ -1,6 +1,7 @@
 ﻿namespace System.Windows.Calculator
 {
     using System.Collections.Generic;
+    using System.Windows.Documents;
 
     public class CalculatorEngine
     {
@@ -22,6 +23,14 @@
             this._functionRegistry.Register(new HeuteFunction());
             this._functionRegistry.Register(new DateDiffFunction());
             this._functionRegistry.Register(new DateFunction());
+
+            var lookupFunction = new LookupFunction
+            {
+                Provider = new MyLookupProvider()
+            };
+
+            this._functionRegistry.Register(lookupFunction);
+
             _evaluator = new Evaluator(this, _functionRegistry);
 
             _valueRegistry.Register("MwSt", () => 19);
@@ -29,6 +38,8 @@
             _valueRegistry.Register("E", () => Math.E);
             _valueRegistry.Register("M", () => MemoryValue);
         }
+
+        public ILookupProvider LookupProvider { get; set; }
 
         public bool TryGetValue(string name, out double value)
         {
