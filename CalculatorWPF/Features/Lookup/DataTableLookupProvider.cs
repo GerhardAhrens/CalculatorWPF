@@ -30,13 +30,18 @@
                 throw new EvaluationException($"Die Spalte '{field}' existiert nicht.");
             }
 
-            object key = keys[0].Value;
+            // Suchschlüssel aus dem CalculatorValue ermitteln
+            string key = keys[0].ToString();
 
-            DataRow row = _table.AsEnumerable().FirstOrDefault(r => Equals(r[_keyColumn], key));
+            // Datensatz suchen
+            DataRow row = _table.AsEnumerable().FirstOrDefault(r => r[_keyColumn]?.ToString() == key);
 
             if (row == null)
+            {
                 return CalculatorValue.Null;
+            }
 
+            // Feldwert zurückgeben
             return CalculatorValue.From(row[field]);
         }
     }
