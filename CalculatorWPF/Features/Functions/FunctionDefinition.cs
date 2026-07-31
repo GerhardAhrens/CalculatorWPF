@@ -6,7 +6,7 @@
 
         protected FunctionDefinition(string name)
         {
-            Name = name;
+            this.Name = name;
         }
     }
 }

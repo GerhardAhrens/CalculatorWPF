@@ -31,12 +31,7 @@ namespace System.Windows.Calculator
         public string DisplayText
         {
             get => base.GetValue<string>();
-            set => base.SetValue(value, this.SetValueMemory);
-        }
-
-        private void SetValueMemory(string arg1, string arg2)
-        {
-            this.MemoryValue = Convert.ToDouble(arg1);
+            set => base.SetValue(value);
         }
 
         public string ExpressionText
@@ -59,12 +54,8 @@ namespace System.Windows.Calculator
 
         public double MemoryValue
         {
-            get => _engine.MemoryValue;
-            set
-            {
-                _engine.MemoryValue = value;
-                base.OnPropertyChanged();
-            }
+            get => base.GetValue<double>();
+            set => base.SetValue(value);
         }
 
         public void EvaluateExpression()
@@ -79,7 +70,8 @@ namespace System.Windows.Calculator
 
                 if (value.IsNumber)
                 {
-                    Result = value;
+                    this.Result = value;
+                    this.MemoryValue = value;
                 }
             }
             catch (TokenizerException ex)
@@ -96,8 +88,8 @@ namespace System.Windows.Calculator
             }
             catch (Exception ex)
             {
-                //ErrorText = ex.Message;
-                ErrorText = $"{ex.GetType().Name}\r\n{ex.Message}\r\n{ex.StackTrace}";
+                ErrorText = ex.Message;
+                /*ErrorText = $"{ex.GetType().Name}\r\n{ex.Message}\r\n{ex.StackTrace}";*/
             }
         }
     }

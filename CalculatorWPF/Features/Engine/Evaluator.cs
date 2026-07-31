@@ -20,7 +20,7 @@
                 UnaryExpression u => EvaluateUnary(u),
                 BinaryExpression b => EvaluateBinary(b),
                 FunctionExpression f => EvaluateFunction(f),
-
+                StringExpression s => EvaluateString(s),
                 _ => throw new EvaluationException("Unbekannter Ausdruck.")
             };
         }
@@ -90,6 +90,14 @@
 
         #endregion
 
+        #region String
+        private CalculatorValue EvaluateString(StringExpression expression)
+        {
+            return expression.Value;
+        }
+        #endregion String
+
+        #region Function
         private CalculatorValue EvaluateFunction(FunctionExpression function)
         {
             if (!_functionRegistry.TryGetFunction(function.Name, out var calculatorFunction))
@@ -111,6 +119,7 @@
 
             return calculatorFunction.Execute(values);
         }
+        #endregion Function
 
         private CalculatorValue EvaluateVariable(VariableExpression variable)
         {

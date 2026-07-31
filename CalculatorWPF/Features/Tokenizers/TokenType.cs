@@ -35,6 +35,7 @@ namespace System.Windows.Calculator
 
         Comma,
 
-        End
+        End,
+        String,
     }
 }

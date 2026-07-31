@@ -6,8 +6,8 @@
     {
         public FunctionExpression(string name, List<ExpressionNode> parameters)
         {
-            Name = name;
-            Parameters = parameters;
+            this.Name = name;
+            this.Parameters = parameters;
         }
 
         public string Name { get; }

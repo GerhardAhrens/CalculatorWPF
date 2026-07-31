@@ -19,8 +19,9 @@
             ExpressionNode expression = ParseExpression();
 
             if (Current.Type != TokenType.End)
-                throw new ParserException(
-                    $"Unerwartetes Token '{Current.Text}'.");
+            {
+                throw new ParserException($"Unerwartetes Token '{Current.Text}'.");
+            }
 
             return expression;
         }
@@ -51,12 +52,7 @@
 
                 ExpressionNode right = ParseMultiplication();
 
-                left = new BinaryExpression(
-                    left,
-                    op == TokenType.Plus
-                        ? BinaryOperator.Add
-                        : BinaryOperator.Subtract,
-                    right);
+                left = new BinaryExpression(left, op == TokenType.Plus ? BinaryOperator.Add : BinaryOperator.Subtract, right);
             }
 
             return left;
@@ -64,14 +60,13 @@
 
         #endregion
 
-        #region * /
+        #region
 
         private ExpressionNode ParseMultiplication()
         {
             ExpressionNode left = ParseUnary();
 
-            while (Current.Type == TokenType.Multiply ||
-                   Current.Type == TokenType.Divide)
+            while (Current.Type == TokenType.Multiply || Current.Type == TokenType.Divide)
             {
                 TokenType op = Current.Type;
 
@@ -176,6 +171,13 @@
                 }
 
                 return new VariableExpression(identifier);
+            }
+
+            if (Current.Type == TokenType.String)
+            {
+                string value = Current.Text;
+                Next();
+                return new StringExpression(value);
             }
 
             throw new ParserException($"Unerwartetes Token '{Current.Text}'.");

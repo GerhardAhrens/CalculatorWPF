@@ -20,6 +20,8 @@
             this._functionRegistry.Register(new NettoFunction());
             this._functionRegistry.Register(new RabattFunction());
             this._functionRegistry.Register(new HeuteFunction());
+            this._functionRegistry.Register(new DateDiffFunction());
+            this._functionRegistry.Register(new DateFunction());
             _evaluator = new Evaluator(this, _functionRegistry);
 
             _valueRegistry.Register("MwSt", () => 19);

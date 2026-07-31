@@ -1,6 +1,7 @@
 ﻿namespace System.Windows.Calculator
 {
     using System.Collections.Generic;
+    using System.Text;
 
     public class Tokenizer
     {
@@ -34,6 +35,12 @@
                 if (char.IsLetter(current) || current == '_')
                 {
                     tokens.Add(ReadIdentifier());
+                    continue;
+                }
+
+                if (Current == '"')
+                {
+                    tokens.Add(ReadString());
                     continue;
                 }
 
@@ -164,6 +171,30 @@
             return new Token(TokenType.Identifier, identifier);
         }
 
+        private Token ReadString()
+        {
+            // Öffnendes " überspringen
+            _position++;
+
+            int start = _position;
+
+            while (!IsEnd() && Current != '"')
+            {
+                _position++;
+            }
+
+            if (IsEnd())
+            {
+                throw new TokenizerException("Zeichenkette wurde nicht abgeschlossen.");
+            }
+
+            string value = _expression.Substring(start, _position - start);
+
+            // Schließendes " überspringen
+            _position++;
+
+            return new Token(TokenType.String, value);
+        }
         #endregion
     }
 }
