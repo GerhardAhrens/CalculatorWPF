@@ -25,10 +25,15 @@
             this._functionRegistry.Register(new DateDiffFunction());
             this._functionRegistry.Register(new DateFunction());
 
-            DataTable dt = LadeKunden();
+            DataTable dtKunden = LadeKunden();
+            DataTable dtArtikel = LadeArtikel();
+            DataTableLookupProvider provider = new();
+            provider.Add("Kunden", dtKunden, "A");
+            provider.Add("Artikel", dtArtikel, "A");
+
             var lookupFunction = new LookupFunction
             {
-                Provider = new DataTableLookupProvider(dt,"A")
+                Provider = provider
             };
 
             this._functionRegistry.Register(lookupFunction);
@@ -77,6 +82,30 @@
             table.Rows.Add(1008, "Becker", "Wiesbaden");
             table.Rows.Add(1009, "Hoffmann", "Koblenz");
             table.Rows.Add(1010, "Koch", "Speyer");
+
+            return table;
+        }
+
+        private static DataTable LadeArtikel()
+        {
+            DataTable table = new("Artikel");
+
+            table.Columns.Add("A", typeof(int));         // Key
+            table.Columns.Add("B", typeof(string));      // Artikelname
+            table.Columns.Add("C", typeof(decimal));     // Preis
+
+            table.PrimaryKey = new[] { table.Columns["A"] };
+
+            table.Rows.Add(2001, "Kugelschreiber", 1.99m);
+            table.Rows.Add(2002, "Bleistift", 0.79m);
+            table.Rows.Add(2003, "Radiergummi", 1.29m);
+            table.Rows.Add(2004, "Notizblock", 3.49m);
+            table.Rows.Add(2005, "Ordner", 4.99m);
+            table.Rows.Add(2006, "Locher", 8.95m);
+            table.Rows.Add(2007, "Tacker", 12.50m);
+            table.Rows.Add(2008, "Lineal", 2.19m);
+            table.Rows.Add(2009, "Schere", 6.75m);
+            table.Rows.Add(2010, "Marker", 2.99m);
 
             return table;
         }

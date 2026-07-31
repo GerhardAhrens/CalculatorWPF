@@ -4,44 +4,51 @@
 
     public sealed class DataTableLookupProvider : ILookupProvider
     {
-        private readonly DataTable _table;
-        private readonly string _keyColumn;
+        private readonly Dictionary<string, LookupTable> _tables =
+            new(StringComparer.OrdinalIgnoreCase);
 
-        public DataTableLookupProvider(DataTable table, string keyColumn)
+        public void Add(string source, DataTable table, string keyColumn)
         {
-            _table = table ?? throw new ArgumentNullException(nameof(table));
-            _keyColumn = keyColumn ?? throw new ArgumentNullException(nameof(keyColumn));
+            _tables[source] = new LookupTable(table, keyColumn);
+        }
 
-            if (!_table.Columns.Contains(_keyColumn))
-            {
-                throw new ArgumentException($"Die Schlüsselspalte '{_keyColumn}' existiert nicht.");
-            }
+        public bool Remove(string source)
+        {
+            return _tables.Remove(source);
+        }
+
+        public bool Contains(string source)
+        {
+            return _tables.ContainsKey(source);
         }
 
         public CalculatorValue Lookup(string source, IReadOnlyList<CalculatorValue> keys, string field)
         {
-            if (keys.Count != 1)
+            if (_tables.TryGetValue(source, out LookupTable lookupTable) == false)
             {
-                throw new EvaluationException("Es wird genau ein Suchschlüssel erwartet.");
+                throw new EvaluationException($"Die Datenquelle '{source}' wurde nicht gefunden.");
             }
 
-            if (!_table.Columns.Contains(field))
+            if (keys.Count != 1)
+            {
+                throw new EvaluationException("Zurzeit wird genau ein Suchschlüssel unterstützt.");
+            }
+
+            if (lookupTable.Table.Columns.Contains(field) == false)
             {
                 throw new EvaluationException($"Die Spalte '{field}' existiert nicht.");
             }
 
-            // Suchschlüssel aus dem CalculatorValue ermitteln
             string key = keys[0].ToString();
 
-            // Datensatz suchen
-            DataRow row = _table.AsEnumerable().FirstOrDefault(r => r[_keyColumn]?.ToString() == key);
+            DataRow row = lookupTable.Table.AsEnumerable()
+                .FirstOrDefault(r => r[lookupTable.KeyColumn]?.ToString() == key);
 
             if (row == null)
             {
                 return CalculatorValue.Null;
             }
 
-            // Feldwert zurückgeben
             return CalculatorValue.From(row[field]);
         }
     }
