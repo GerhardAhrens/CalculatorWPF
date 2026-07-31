@@ -92,6 +92,51 @@
                         _position++;
                         break;
 
+                    case '=':
+                        tokens.Add(new Token(TokenType.Equal, "="));
+                        _position++;
+                        break;
+
+                    case '<':
+
+                        _position++;
+
+                        if (!IsEnd())
+                        {
+                            if (Current == '=')
+                            {
+                                tokens.Add(new Token(TokenType.LessOrEqual, "<="));
+                                _position++;
+                                break;
+                            }
+
+                            if (Current == '>')
+                            {
+                                tokens.Add(new Token(TokenType.NotEqual, "<>"));
+                                _position++;
+                                break;
+                            }
+                        }
+
+                        tokens.Add(new Token(TokenType.Less, "<"));
+                        break;
+
+                    case '>':
+
+                        _position++;
+
+                        if (!IsEnd() && Current == '=')
+                        {
+                            tokens.Add(new Token(TokenType.GreaterOrEqual, ">="));
+                            _position++;
+                        }
+                        else
+                        {
+                            tokens.Add(new Token(TokenType.Greater, ">"));
+                        }
+
+                        break;
+
                     default:
                         throw new TokenizerException($"Ungültiges Zeichen '{current}' an Position {_position + 1}.");
                 }
@@ -194,6 +239,14 @@
             _position++;
 
             return new Token(TokenType.String, value);
+        }
+
+        private void Next()
+        {
+            if (!IsEnd())
+            {
+                _position++;
+            }
         }
         #endregion
     }

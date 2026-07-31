@@ -32,7 +32,7 @@
 
         private ExpressionNode ParseExpression()
         {
-            return ParseAddition();
+            return ParseComparison();
         }
 
         #endregion
@@ -81,6 +81,92 @@
         }
 
         #endregion
+
+        #region Primary
+
+        private ExpressionNode ParsePrimary()
+        {
+            if (Current.Type == TokenType.Number)
+            {
+                double value = double.Parse(Current.Text, CultureInfo.InvariantCulture);
+
+                Next();
+
+                return new NumberExpression(value);
+            }
+
+            if (Current.Type == TokenType.LeftParenthesis)
+            {
+                Next();
+
+                ExpressionNode expression = ParseExpression();
+
+                Expect(TokenType.RightParenthesis);
+
+                return expression;
+            }
+
+            if (Current.Type == TokenType.Identifier)
+            {
+                string identifier = Current.Text;
+
+                Next();
+
+                if (Current.Type == TokenType.LeftParenthesis)
+                {
+                    return ParseFunction(identifier);
+                }
+
+                return new VariableExpression(identifier);
+            }
+
+            if (Current.Type == TokenType.String)
+            {
+                string value = Current.Text;
+                Next();
+                return new StringExpression(value);
+            }
+
+            throw new ParserException($"Unerwartetes Token '{Current.Text}'.");
+        }
+
+        #endregion
+
+        #region ParseComparison
+        private ExpressionNode ParseComparison()
+        {
+            ExpressionNode left = ParseAddition();
+
+            while (Current.Type == TokenType.Equal ||
+                   Current.Type == TokenType.NotEqual ||
+                   Current.Type == TokenType.Less ||
+                   Current.Type == TokenType.LessOrEqual ||
+                   Current.Type == TokenType.Greater ||
+                   Current.Type == TokenType.GreaterOrEqual)
+            {
+                TokenType op = Current.Type;
+
+                Next();
+
+                ExpressionNode right = ParseAddition();
+
+                BinaryOperator binaryOperator = op switch
+                {
+                    TokenType.Equal => BinaryOperator.Equal,
+                    TokenType.NotEqual => BinaryOperator.NotEqual,
+                    TokenType.Less => BinaryOperator.Less,
+                    TokenType.LessOrEqual => BinaryOperator.LessOrEqual,
+                    TokenType.Greater => BinaryOperator.Greater,
+                    TokenType.GreaterOrEqual => BinaryOperator.GreaterOrEqual,
+                    _ => throw new InvalidOperationException()
+                };
+
+                left = new BinaryExpression(left, binaryOperator, right);
+            }
+
+            return left;
+        }
+        #endregion ParseComparison
 
         #region Unary
 
@@ -134,56 +220,6 @@
 
             return node;
         }
-
-        #region Primary
-
-        private ExpressionNode ParsePrimary()
-        {
-            if (Current.Type == TokenType.Number)
-            {
-                double value = double.Parse(Current.Text, CultureInfo.InvariantCulture);
-
-                Next();
-
-                return new NumberExpression(value);
-            }
-
-            if (Current.Type == TokenType.LeftParenthesis)
-            {
-                Next();
-
-                ExpressionNode expression = ParseExpression();
-
-                Expect(TokenType.RightParenthesis);
-
-                return expression;
-            }
-
-            if (Current.Type == TokenType.Identifier)
-            {
-                string identifier = Current.Text;
-
-                Next();
-
-                if (Current.Type == TokenType.LeftParenthesis)
-                {
-                    return ParseFunction(identifier);
-                }
-
-                return new VariableExpression(identifier);
-            }
-
-            if (Current.Type == TokenType.String)
-            {
-                string value = Current.Text;
-                Next();
-                return new StringExpression(value);
-            }
-
-            throw new ParserException($"Unerwartetes Token '{Current.Text}'.");
-        }
-
-        #endregion
 
         #region Helper
 

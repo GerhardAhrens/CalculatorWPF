@@ -79,9 +79,25 @@
                 case BinaryOperator.Power:
                     return Power(left, right);
 
+                case BinaryOperator.Equal:
+                    return Equal(left, right);
+
+                case BinaryOperator.NotEqual:
+                    return CalculatorValue.From(!Equal(left, right).AsBoolean());
+
+                case BinaryOperator.Less:
+                    return Less(left, right);
+
+                case BinaryOperator.LessOrEqual:
+                    return LessOrEqual(left, right);
+
+                case BinaryOperator.Greater:
+                    return Greater(left, right);
+
+                case BinaryOperator.GreaterOrEqual:
+                    return GreaterOrEqual(left, right);
                 default:
-                    throw new EvaluationException(
-                        $"Unbekannter Operator '{binary.Operator}'.");
+                    throw new EvaluationException($"Unbekannter Operator '{binary.Operator}'.");
             }
         }
 
@@ -149,6 +165,71 @@
 
             return Math.Pow(left.AsNumber(), right.AsNumber());
         }
+
+        private CalculatorValue Equal(CalculatorValue left, CalculatorValue right)
+        {
+            if (left.Type != right.Type)
+                return CalculatorValue.From(false);
+
+            return left.Type switch
+            {
+                CalculatorValueType.Number => CalculatorValue.From(left.AsNumber() == right.AsNumber()),
+
+                CalculatorValueType.String => CalculatorValue.From(left.AsString() == right.AsString()),
+
+                CalculatorValueType.Boolean => CalculatorValue.From(left.AsBoolean() == right.AsBoolean()),
+
+                CalculatorValueType.DateTime => CalculatorValue.From(left.AsDateTime() == right.AsDateTime()),
+
+                CalculatorValueType.Null => CalculatorValue.From(true),
+
+                _ => CalculatorValue.From(false)
+            };
+        }
+
+        private CalculatorValue Less(CalculatorValue left, CalculatorValue right)
+        {
+            if (left.Type != right.Type)
+            {
+                throw new EvaluationException("Vergleich zwischen unterschiedlichen Datentypen.");
+            }
+
+            return left.Type switch
+            {
+                CalculatorValueType.Number => CalculatorValue.From(left.AsNumber() < right.AsNumber()),
+
+                CalculatorValueType.DateTime => CalculatorValue.From(left.AsDateTime() < right.AsDateTime()),
+
+                _ => throw new EvaluationException($"Operator '<' wird für Typ '{left.Type}' nicht unterstützt.")
+            };
+        }
+
+        private CalculatorValue Greater(CalculatorValue left, CalculatorValue right)
+        {
+            if (left.Type != right.Type)
+            {
+                throw new EvaluationException("Vergleich zwischen unterschiedlichen Datentypen.");
+            }
+
+            return left.Type switch
+            {
+                CalculatorValueType.Number => CalculatorValue.From(left.AsNumber() > right.AsNumber()),
+
+                CalculatorValueType.DateTime => CalculatorValue.From(left.AsDateTime() > right.AsDateTime()),
+
+                _ => throw new EvaluationException($"Operator '>' wird für Typ '{left.Type}' nicht unterstützt.")
+            };
+        }
+
+        private CalculatorValue LessOrEqual(CalculatorValue left, CalculatorValue right)
+        {
+            return CalculatorValue.From(Less(left, right).AsBoolean() || Equal(left, right).AsBoolean());
+        }
+
+        private CalculatorValue GreaterOrEqual(CalculatorValue left, CalculatorValue right)
+        {
+            return CalculatorValue.From(Greater(left, right).AsBoolean() || Equal(left, right).AsBoolean());
+        }
         #endregion
 
         #region String
@@ -161,7 +242,7 @@
         #region Function
         private CalculatorValue EvaluateFunction(FunctionExpression function)
         {
-            if (!_functionRegistry.TryGetFunction(function.Name, out var calculatorFunction))
+            if (_functionRegistry.TryGetFunction(function.Name, out var calculatorFunction) == false)
             {
                 throw new EvaluationException($"Unbekannte Funktion '{function.Name}'.");
             }
@@ -178,6 +259,11 @@
                 throw new EvaluationException($"Funktion {function.Name}() erwartet {calculatorFunction.ParameterCount} Parameter.");
             }
 
+            if (function.Name.Equals("If", StringComparison.OrdinalIgnoreCase))
+            {
+                return EvaluateIf(function);
+            }
+
             CalculatorValue[] values = new CalculatorValue[function.Parameters.Count];
 
             for (int i = 0; i < values.Length; i++)
@@ -186,6 +272,28 @@
             }
 
             return calculatorFunction.Execute(values);
+        }
+
+        private CalculatorValue EvaluateIf(FunctionExpression function)
+        {
+            if (function.Parameters.Count != 3)
+            {
+                throw new EvaluationException("If erwartet drei Parameter.");
+            }
+
+            CalculatorValue condition = Evaluate(function.Parameters[0]);
+
+            if (condition.IsBoolean == false)
+            {
+                throw new EvaluationException("Die Bedingung muss Boolean sein.");
+            }
+
+            if (condition.AsBoolean())
+            {
+                return Evaluate(function.Parameters[1]);
+            }
+
+            return Evaluate(function.Parameters[2]);
         }
         #endregion Function
 

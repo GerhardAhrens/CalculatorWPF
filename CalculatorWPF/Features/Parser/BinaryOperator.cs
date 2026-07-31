@@ -22,5 +22,11 @@ namespace System.Windows.Calculator
         Multiply,
         Divide,
         Power,
+        Equal,
+        NotEqual,
+        Less,
+        LessOrEqual,
+        Greater,
+        GreaterOrEqual,
     }
 }

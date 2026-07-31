@@ -37,5 +37,12 @@ namespace System.Windows.Calculator
 
         End,
         String,
+
+        Equal,
+        NotEqual,
+        Less,
+        LessOrEqual,
+        Greater,
+        GreaterOrEqual,
     }
 }
