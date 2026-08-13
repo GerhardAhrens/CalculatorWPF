@@ -1,5 +1,11 @@
 ﻿namespace System.Windows.Calculator
 {
+    /// <summary>
+    /// Die Klasse berechnet die Differenz zwischen zwei Datumsangaben in verschiedenen Einheiten (Tage, Stunden, Minuten, Sekunden, Monate, Jahre).
+    /// </summary>
+    /// <example>
+    /// DateDiff(Tag; Heute(); Date(2026;8;15))
+    /// </example>
     public class DateDiffFunction : ICalculatorFunction
     {
         public string Name => "datediff";

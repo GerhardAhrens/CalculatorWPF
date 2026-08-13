@@ -81,6 +81,14 @@
             Items.Add(new FormulaItem()
             {
                 Category = "Funktion",
+                Name = "KW",
+                Signature = "(DateTime)",
+                InsertText = "KW()"
+            });
+
+            Items.Add(new FormulaItem()
+            {
+                Category = "Funktion",
                 Name = "Lookup",
                 Signature = "(String; Key; String)",
                 InsertText = "Lookup(\"\"; ; \"\")"

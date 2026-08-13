@@ -24,6 +24,7 @@
             this._functionRegistry.Register(new RabattFunction());
             this._functionRegistry.Register(new HeuteFunction());
             this._functionRegistry.Register(new DateDiffFunction());
+            this._functionRegistry.Register(new KwFunction());
             this._functionRegistry.Register(new DateFunction());
             this._functionRegistry.Register(new FormatFunction());
 
