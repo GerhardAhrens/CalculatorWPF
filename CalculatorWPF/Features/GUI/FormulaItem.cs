@@ -10,6 +10,8 @@
 
         public string InsertText { get; set; }
 
+        public string Example { get; set; }
+
         public override string ToString()
         {
             return Name;

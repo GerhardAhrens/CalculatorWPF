@@ -24,19 +24,24 @@
                 <GridView>
 
                     <GridViewColumn
-                        Width="90"
-                        DisplayMemberBinding="{Binding Category}"
+                        Width="80"
+                        DisplayMemberBinding="{Binding Path=Category}"
                         Header="Typ" />
 
                     <GridViewColumn
-                        Width="140"
-                        DisplayMemberBinding="{Binding Name}"
+                        Width="120"
+                        DisplayMemberBinding="{Binding Path=Name}"
                         Header="Name" />
 
                     <GridViewColumn
                         Width="300"
-                        DisplayMemberBinding="{Binding Signature}"
+                        DisplayMemberBinding="{Binding Path=Signature}"
                         Header="Parameter" />
+                    
+                    <GridViewColumn
+                        Width="1000"
+                        DisplayMemberBinding="{Binding Path=Example}"
+                        Header="Beispiel" />
 
                 </GridView>
 

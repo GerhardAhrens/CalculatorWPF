@@ -67,7 +67,8 @@
                 Category = "Funktion",
                 Name = "Date",
                 Signature = "(Number; Number; Number)",
-                InsertText = "Date(; ; )"
+                InsertText = "Date(; ; )",
+                Example = $"date({DateTime.Now.Year}; {DateTime.Now.Month}; {DateTime.Now.Day})"
             });
 
             Items.Add(new FormulaItem()
@@ -75,7 +76,8 @@
                 Category = "Funktion",
                 Name = "DateDiff",
                 Signature = "(String; DateTime; DateTime)",
-                InsertText = "DateDiff(\"\"; ; )"
+                InsertText = "DateDiff(\"\"; ; )",
+                Example = $"datediff(\"tag\";heute();Date({DateTime.Now.Year-1}; {DateTime.Now.Month}; {DateTime.Now.Day}))"
             });
 
             Items.Add(new FormulaItem()
@@ -83,7 +85,8 @@
                 Category = "Funktion",
                 Name = "KW",
                 Signature = "(DateTime)",
-                InsertText = "KW()"
+                InsertText = "KW()",
+                Example = $"kw(Heute())"
             });
 
             Items.Add(new FormulaItem()
@@ -91,7 +94,8 @@
                 Category = "Funktion",
                 Name = "Lookup",
                 Signature = "(String; Key; String)",
-                InsertText = "Lookup(\"\"; ; \"\")"
+                InsertText = "Lookup(\"\"; ; \"\")",
+                Example = "Lookup(\"Artikel\";2001;\"B\") → Kugelschreiber oder Lookup(\"Artikel\";2001;\"C\") → 1,99"
             });
 
             Items.Add(new FormulaItem()
@@ -99,7 +103,8 @@
                 Category = "Funktion",
                 Name = "Format",
                 Signature = "(Value; String)",
-                InsertText = "Format(; \"\")"
+                InsertText = "Format(; \"\")",
+                Example = "Format(1234.567;\"N2\") → 1.234,57 | Format(Heute();\"dd.MM.yyyy\") → 31.07.2026 | Format(Lookup(\"Artikel\";2001;\"C\");\"0.00 €\")"
             });
 
             Items.Add(new FormulaItem()
@@ -107,7 +112,8 @@
                 Category = "Funktion",
                 Name = "If",
                 Signature = "(Boolean; Value; Value)",
-                InsertText = "If(; ; )"
+                InsertText = "If(; ; )",
+                Example = "If(1>0;\"Ja\";\"Nein\")"
             });
 
             Items.Add(new FormulaItem()
@@ -115,7 +121,8 @@
                 Category = "Funktion",
                 Name = "Sqrt",
                 Signature = "(Number)",
-                InsertText = "Sqrt()"
+                InsertText = "Sqrt()",
+                Example = "Sqrt(16) → 4"
             });
 
             Items.Add(new FormulaItem()
@@ -123,7 +130,8 @@
                 Category = "Funktion",
                 Name = "Rabatt",
                 Signature = "(Number; Number)",
-                InsertText = "Rabatt(; )"
+                InsertText = "Rabatt(; )",
+                Example = "Rabatt(100;0.1) → 10"
             });
 
             Items.Add(new FormulaItem()
@@ -131,7 +139,8 @@
                 Category = "Funktion",
                 Name = "Netto",
                 Signature = "(Number;Number)",
-                InsertText = "Netto(;)"
+                InsertText = "Netto(;)",
+                Example = "Netto(119;mwst) → 100"
             });
 
             Items.Add(new FormulaItem()
@@ -139,7 +148,8 @@
                 Category = "Funktion",
                 Name = "Brutto",
                 Signature = "(Number;Number)",
-                InsertText = "Brutto(;)"
+                InsertText = "Brutto(;)",
+                Example = "Brutto(100;mwst) → 119"
             });
         }
 
