@@ -52,11 +52,9 @@
                 InsertText = "M"
             });
 
-            // Funktionen
-
             Items.Add(new FormulaItem()
             {
-                Category = "Funktion",
+                Category = "Datum",
                 Name = "Heute",
                 Signature = "()",
                 InsertText = "Heute()"
@@ -64,7 +62,7 @@
 
             Items.Add(new FormulaItem()
             {
-                Category = "Funktion",
+                Category = "Datum",
                 Name = "Date",
                 Signature = "(Number; Number; Number)",
                 InsertText = "Date(; ; )",
@@ -73,7 +71,7 @@
 
             Items.Add(new FormulaItem()
             {
-                Category = "Funktion",
+                Category = "Datum",
                 Name = "DateDiff",
                 Signature = "(String; DateTime; DateTime)",
                 InsertText = "DateDiff(\"\"; ; )",
@@ -82,7 +80,7 @@
 
             Items.Add(new FormulaItem()
             {
-                Category = "Funktion",
+                Category = "Datum",
                 Name = "KW",
                 Signature = "(DateTime)",
                 InsertText = "KW()",
@@ -118,7 +116,7 @@
 
             Items.Add(new FormulaItem()
             {
-                Category = "Funktion",
+                Category = "Mathematik",
                 Name = "Sqrt",
                 Signature = "(Number)",
                 InsertText = "Sqrt()",
@@ -127,7 +125,7 @@
 
             Items.Add(new FormulaItem()
             {
-                Category = "Funktion",
+                Category = "Finanz",
                 Name = "Rabatt",
                 Signature = "(Number; Number)",
                 InsertText = "Rabatt(; )",
@@ -136,7 +134,7 @@
 
             Items.Add(new FormulaItem()
             {
-                Category = "Funktion",
+                Category = "Finanz",
                 Name = "Netto",
                 Signature = "(Number;Number)",
                 InsertText = "Netto(;)",
@@ -145,11 +143,38 @@
 
             Items.Add(new FormulaItem()
             {
-                Category = "Funktion",
+                Category = "Finanz",
                 Name = "Brutto",
                 Signature = "(Number;Number)",
                 InsertText = "Brutto(;)",
                 Example = "Brutto(100;mwst) → 119"
+            });
+
+            Items.Add(new FormulaItem()
+            {
+                Category = "Umrechnung",
+                Name = "KW2PS",
+                Signature = "(Number)",
+                InsertText = "KW2PS()",
+                Example = "KW2PS(20) → 27"
+            });
+
+            Items.Add(new FormulaItem()
+            {
+                Category = "Umrechnung",
+                Name = "PS2KW",
+                Signature = "(Number)",
+                InsertText = "PS2KW()",
+                Example = "PS2KW(27) → 20KW"
+            });
+
+            Items.Add(new FormulaItem()
+            {
+                Category = "Geometrie",
+                Name = "Umfang",
+                Signature = "(Number)",
+                InsertText = "Umfang()",
+                Example = "Umfang(5) → 31,42"
             });
         }
 

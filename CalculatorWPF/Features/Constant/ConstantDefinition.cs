@@ -4,8 +4,7 @@
     {
         public double Value { get; }
 
-        public ConstantDefinition(string name, double value)
-            : base(name)
+        public ConstantDefinition(string name, double value) : base(name)
         {
             Value = value;
         }

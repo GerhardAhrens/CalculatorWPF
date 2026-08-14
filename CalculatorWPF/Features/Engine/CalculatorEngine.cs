@@ -16,6 +16,11 @@
 
         public CalculatorEngine()
         {
+            _valueRegistry.Register("MwSt", () => 19);
+            _valueRegistry.Register("PI", () => Math.PI);
+            _valueRegistry.Register("E", () => Math.E);
+            _valueRegistry.Register("M", () => MemoryValue);
+
             _functionRegistry = new FunctionRegistry();
             this._functionRegistry.Register(new IfFunction());
             this._functionRegistry.Register(new SqrtFunction());
@@ -27,6 +32,9 @@
             this._functionRegistry.Register(new KwFunction());
             this._functionRegistry.Register(new DateFunction());
             this._functionRegistry.Register(new FormatFunction());
+            this._functionRegistry.Register(new Kw2PsFunction());
+            this._functionRegistry.Register(new Ps2KwFunction());
+            this._functionRegistry.Register(new UmfangFunction());
 
             DataTable dtKunden = LadeKunden();
             DataTable dtArtikel = LadeArtikel();
@@ -42,11 +50,6 @@
             this._functionRegistry.Register(lookupFunction);
 
             _evaluator = new Evaluator(this, _functionRegistry);
-
-            _valueRegistry.Register("MwSt", () => 19);
-            _valueRegistry.Register("PI", () => Math.PI);
-            _valueRegistry.Register("E", () => Math.E);
-            _valueRegistry.Register("M", () => MemoryValue);
         }
 
         public ILookupProvider LookupProvider { get; set; }
