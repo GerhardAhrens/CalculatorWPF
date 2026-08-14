@@ -52,6 +52,7 @@
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock
+                                    Width="Auto"
                                     Style="{StaticResource ResourceKey=TbStyle}"
                                     Text="{Binding Path=Name}"
                                     ToolTip="{Binding Path=Description}" />
