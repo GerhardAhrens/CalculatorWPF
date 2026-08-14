@@ -18,6 +18,22 @@
             ItemsSource="{Binding Items}"
             MouseDoubleClick="lvItems_MouseDoubleClick"
             SelectedItem="{Binding SelectedItem}">
+            <ListView.Resources>
+                <Style x:Key="TbStyle" TargetType="TextBlock">
+                    <Setter Property="TextTrimming" Value="None" />
+                    <Setter Property="TextWrapping" Value="Wrap" />
+                    <Setter Property="FontFamily" Value="Segue UI Light" />
+                    <Setter Property="FontSize" Value="13" />
+                </Style>
+
+                <Style x:Key="TextHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Left" />
+                </Style>
+
+                <Style x:Key="NumericHeaderStyle" TargetType="{x:Type GridViewColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Right" />
+                </Style>
+            </ListView.Resources>
 
             <ListView.View>
 
@@ -26,22 +42,34 @@
                     <GridViewColumn
                         Width="80"
                         DisplayMemberBinding="{Binding Path=Category}"
-                        Header="Typ" />
+                        Header="Typ"
+                        HeaderContainerStyle="{StaticResource ResourceKey=TextHeaderStyle}" />
 
                     <GridViewColumn
                         Width="120"
-                        DisplayMemberBinding="{Binding Path=Name}"
-                        Header="Name" />
+                        Header="Name"
+                        HeaderContainerStyle="{StaticResource ResourceKey=TextHeaderStyle}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Style="{StaticResource ResourceKey=TbStyle}"
+                                    Text="{Binding Path=Name}"
+                                    ToolTip="{Binding Path=Description}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
                     <GridViewColumn
                         Width="300"
                         DisplayMemberBinding="{Binding Path=Signature}"
-                        Header="Parameter" />
-                    
+                        Header="Parameter"
+                        HeaderContainerStyle="{StaticResource ResourceKey=TextHeaderStyle}" />
+
                     <GridViewColumn
                         Width="1000"
                         DisplayMemberBinding="{Binding Path=Example}"
-                        Header="Beispiel" />
+                        Header="Beispiel"
+                        HeaderContainerStyle="{StaticResource ResourceKey=TextHeaderStyle}" />
 
                 </GridView>
 

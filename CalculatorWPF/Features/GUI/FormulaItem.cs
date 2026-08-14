@@ -11,6 +11,7 @@
         public string InsertText { get; set; }
 
         public string Example { get; set; }
+        public string Description { get; set; }
 
         public override string ToString()
         {

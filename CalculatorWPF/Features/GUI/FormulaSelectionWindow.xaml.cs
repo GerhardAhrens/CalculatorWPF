@@ -35,7 +35,8 @@
             {
                 Category = "Konstante",
                 Name = "PI",
-                InsertText = "PI"
+                InsertText = "PI",
+                Description = "Kreiszahl PI"
             });
 
             Items.Add(new FormulaItem()
@@ -57,7 +58,8 @@
                 Category = "Datum",
                 Name = "Heute",
                 Signature = "()",
-                InsertText = "Heute()"
+                InsertText = "Heute()",
+                Description = "Gibt das Aktuelles Tagesdatum zurück"
             });
 
             Items.Add(new FormulaItem()
@@ -66,7 +68,8 @@
                 Name = "Date",
                 Signature = "(Number; Number; Number)",
                 InsertText = "Date(; ; )",
-                Example = $"date({DateTime.Now.Year}; {DateTime.Now.Month}; {DateTime.Now.Day})"
+                Example = $"date({DateTime.Now.Year}; {DateTime.Now.Month}; {DateTime.Now.Day})",
+                Description = "Erzeugt zur internen Verwendung oder Berechung ein DateTime Datentyp"
             });
 
             Items.Add(new FormulaItem()
