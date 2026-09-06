@@ -22,9 +22,10 @@
         <TextBox
             Grid.Row="0"
             HorizontalContentAlignment="Right"
+            VerticalContentAlignment="Center"
             FontSize="28"
             IsReadOnly="True"
-            Text="{Binding Path=DisplayText}" />
+            Text="{Binding Path=DisplayText, FallbackValue=~0}" />
 
         <!--  Eingabe  -->
         <Grid
@@ -41,17 +42,19 @@
                 Grid.Column="1"
                 Width="40"
                 Margin="8,0"
-                Text="{Binding Path=MemoryValue, UpdateSourceTrigger=PropertyChanged}" />
+                VerticalContentAlignment="Center"
+                Text="{Binding Path=MemoryValue, UpdateSourceTrigger=PropertyChanged, FallbackValue=~0}" />
 
             <TextBox
                 x:Name="ExpressionBox"
                 Grid.Column="2"
                 Width="Auto"
                 HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="Center"
                 FontSize="20"
                 KeyDown="ExpressionBox_KeyDown"
                 PreviewKeyDown="ExpressionBox_PreviewKeyDown"
-                Text="{Binding Path=ExpressionText, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding Path=ExpressionText, UpdateSourceTrigger=PropertyChanged, FallbackValue=~0}" />
         </Grid>
 
         <!--  Fehler  -->
