@@ -34,7 +34,7 @@ namespace CalculatorWPF
 
             WeakEventManager<WindowBase, RoutedEventArgs>.AddHandler(this, "Loaded", this.OnLoaded);
             WeakEventManager<WindowBase, CancelEventArgs>.AddHandler(this, "Closing", this.OnWindowClosing);
-            this.SetVectorIcon("IconApplicationLogo", 64);
+            this.SetVectorIcon("IconOffice_Calc_64", 64);
 
             this.QuitCommand = new CommandBase(() => this.OnQuit("Argument"));
             this.InformationCommand = new CommandBase(this.OnInformationPopup);
