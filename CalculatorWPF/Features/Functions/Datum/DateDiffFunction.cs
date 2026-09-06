@@ -6,6 +6,7 @@
     /// <example>
     /// DateDiff(Tag; Heute(); Date(2026;8;15))
     /// </example>
+    [Formula("Datum", "DateDiff", "(String; DateTime; DateTime)", "DateDiff(\"\";;)", "DateDiff(\"tag\";heute();Date(2026; 10; 5))", "Gibt die Diffferenz zwischen zwei Datumsangaben in verschiedenen Einheiten zurück")]
     public class DateDiffFunction : ICalculatorFunction
     {
         public string Name => "datediff";

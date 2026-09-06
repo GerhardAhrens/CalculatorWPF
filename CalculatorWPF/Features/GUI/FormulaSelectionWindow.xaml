@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:System.Windows.Calculator"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Title="Formel auswählen"
-    Width="600"
+    Width="650"
     Height="450"
     WindowStartupLocation="CenterOwner"
     mc:Ignorable="d">
@@ -15,7 +15,7 @@
 
         <ListView
             x:Name="lvItems"
-            ItemsSource="{Binding Items}"
+            ItemsSource="{Binding Path=Items}"
             MouseDoubleClick="lvItems_MouseDoubleClick"
             SelectedItem="{Binding SelectedItem}">
             <ListView.Resources>
@@ -61,7 +61,7 @@
                     </GridViewColumn>
 
                     <GridViewColumn
-                        Width="300"
+                        Width="250"
                         DisplayMemberBinding="{Binding Path=Signature}"
                         Header="Parameter"
                         HeaderContainerStyle="{StaticResource ResourceKey=TextHeaderStyle}" />

@@ -1,5 +1,6 @@
 ﻿namespace System.Windows.Calculator
 {
+    [Formula("Geometrie", "Umfang", "(Number)", "Umfang()", "Umfang(5)", "Umfang(5) → 31,42")]
 
     public sealed class UmfangFunction : ICalculatorFunction
     {

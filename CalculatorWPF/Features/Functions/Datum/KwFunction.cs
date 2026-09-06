@@ -9,6 +9,7 @@
     /// KW(Heute())
     /// KW(Date(2026;8;13))
     /// </example>
+    [Formula("Datum", "KW", "(DateTime)", "KW()", "kw(Heute())", "Gibt die Kalenderwoche für ein gegebenes Datum zurück")]
     public sealed class KwFunction : ICalculatorFunction
     {
         public string Name => "KW";

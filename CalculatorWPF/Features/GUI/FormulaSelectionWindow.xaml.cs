@@ -1,6 +1,6 @@
 ﻿namespace System.Windows.Calculator
 {
-    using System.Collections.ObjectModel;
+    using System.Reflection;
     using System.Windows;
     using System.Windows.Input;
 
@@ -13,13 +13,9 @@
         {
             this.InitializeComponent();
             WeakEventManager<WindowBase, RoutedEventArgs>.AddHandler(this, "Loaded", this.OnLoaded);
-
-            this.Items = new ObservableCollection<FormulaItem>();
-
-            this.DataContext = this;
         }
 
-        public ObservableCollection<FormulaItem> Items { get; }
+        public List<FormulaItem> Items { get; private set; }
 
         public FormulaItem SelectedItem
         {
@@ -27,8 +23,29 @@
             set => base.SetValue(value);
         }
 
+        private static FormulaItem GetFormulaItem(Type type)
+        {
+            FormulaAttribute attribute = type.GetCustomAttribute<FormulaAttribute>();
+
+            if (attribute == null)
+                return null;
+
+            return new FormulaItem
+            {
+                Category = attribute.Category,
+                Name = attribute.Name,
+                Signature = attribute.Signature,
+                InsertText = attribute.InsertText,
+                Example = attribute.Example,
+                Description = attribute.Description
+            };
+        }
+
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
+
+            this.Items = GetFormulaDescriptionData().OrderBy(item => item.Category).ToList(); 
+
             // Konstanten
 
             Items.Add(new FormulaItem()
@@ -53,42 +70,6 @@
                 InsertText = "M"
             });
 
-            Items.Add(new FormulaItem()
-            {
-                Category = "Datum",
-                Name = "Heute",
-                Signature = "()",
-                InsertText = "Heute()",
-                Description = "Gibt das Aktuelles Tagesdatum zurück"
-            });
-
-            Items.Add(new FormulaItem()
-            {
-                Category = "Datum",
-                Name = "Date",
-                Signature = "(Number; Number; Number)",
-                InsertText = "Date(; ; )",
-                Example = $"date({DateTime.Now.Year}; {DateTime.Now.Month}; {DateTime.Now.Day})",
-                Description = "Erzeugt zur internen Verwendung oder Berechung ein DateTime Datentyp"
-            });
-
-            Items.Add(new FormulaItem()
-            {
-                Category = "Datum",
-                Name = "DateDiff",
-                Signature = "(String; DateTime; DateTime)",
-                InsertText = "DateDiff(\"\"; ; )",
-                Example = $"datediff(\"tag\";heute();Date({DateTime.Now.Year-1}; {DateTime.Now.Month}; {DateTime.Now.Day}))"
-            });
-
-            Items.Add(new FormulaItem()
-            {
-                Category = "Datum",
-                Name = "KW",
-                Signature = "(DateTime)",
-                InsertText = "KW()",
-                Example = $"kw(Heute())"
-            });
 
             Items.Add(new FormulaItem()
             {
@@ -153,33 +134,33 @@
                 Example = "Brutto(100;mwst) → 119"
             });
 
-            Items.Add(new FormulaItem()
-            {
-                Category = "Umrechnung",
-                Name = "KW2PS",
-                Signature = "(Number)",
-                InsertText = "KW2PS()",
-                Example = "KW2PS(20) → 27"
-            });
+            this.DataContext = this;
 
-            Items.Add(new FormulaItem()
-            {
-                Category = "Umrechnung",
-                Name = "PS2KW",
-                Signature = "(Number)",
-                InsertText = "PS2KW()",
-                Example = "PS2KW(27) → 20KW"
-            });
-
-            Items.Add(new FormulaItem()
-            {
-                Category = "Geometrie",
-                Name = "Umfang",
-                Signature = "(Number)",
-                InsertText = "Umfang()",
-                Example = "Umfang(5) → 31,42"
-            });
         }
+
+        private List<FormulaItem> GetFormulaDescriptionData()
+        {
+            List<FormulaItem> items = new List<FormulaItem>();
+            Assembly assembly = typeof(ICalculatorFunction).Assembly;
+
+            foreach (Type type in assembly.GetTypes())
+            {
+                if (typeof(ICalculatorFunction).IsAssignableFrom(type) == false)
+                {
+                    continue;
+                }
+
+                FormulaItem item = GetFormulaItem(type);
+
+                if (item != null)
+                {
+                    items.Add(item);
+                }
+            }
+
+            return items;
+        }
+
 
         protected override void OnPreviewKeyDown(KeyEventArgs e)
         {

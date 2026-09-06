@@ -1,5 +1,6 @@
 ﻿namespace System.Windows.Calculator
 {
+    [Formula("Umrechnung", "PS2KW", "(Number)", "PS2KW()", "PS2KW(100)", "Umrechnung von PS in kW.")]
     public sealed class Ps2KwFunction : ICalculatorFunction
     {
         public string Name => "PS2KW";

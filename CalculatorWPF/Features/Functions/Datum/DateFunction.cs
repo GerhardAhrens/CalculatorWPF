@@ -1,5 +1,6 @@
 ﻿namespace System.Windows.Calculator
 {
+    [Formula("Datum", "Date", "(Number; Number; Number)", "Date(; ; )", "Date(2023; 10; 5)", "Erzeugt zur internen Verwendung oder Berechung ein DateTime Datentyp")]
     public class DateFunction : ICalculatorFunction
     {
         public string Name => "date";

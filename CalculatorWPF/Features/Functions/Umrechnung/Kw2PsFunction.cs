@@ -2,6 +2,7 @@
 {
     using System;
 
+    [Formula("Umrechnung", "KW2PS", "(Number)", "KW2PS()", "KW2PS(81)","Umrechnung von kW in PS.")]
     public sealed class Kw2PsFunction : ICalculatorFunction
     {
         public string Name => "KW2PS";

@@ -1,5 +1,6 @@
 ﻿namespace System.Windows.Calculator
 {
+    [Formula("Datum", "Heute", "()", "Heute()", "Heute()", "Gibt das Aktuelles Tagesdatum zurück")]
     public class HeuteFunction : ICalculatorFunction
     {
         public string Name => "heute";
