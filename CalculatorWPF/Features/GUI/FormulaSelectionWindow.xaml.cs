@@ -83,55 +83,10 @@
             Items.Add(new FormulaItem()
             {
                 Category = "Funktion",
-                Name = "Format",
-                Signature = "(Value; String)",
-                InsertText = "Format(; \"\")",
-                Example = "Format(1234.567;\"N2\") → 1.234,57 | Format(Heute();\"dd.MM.yyyy\") → 31.07.2026 | Format(Lookup(\"Artikel\";2001;\"C\");\"0.00 €\")"
-            });
-
-            Items.Add(new FormulaItem()
-            {
-                Category = "Funktion",
                 Name = "If",
                 Signature = "(Boolean; Value; Value)",
                 InsertText = "If(; ; )",
                 Example = "If(1>0;\"Ja\";\"Nein\")"
-            });
-
-            Items.Add(new FormulaItem()
-            {
-                Category = "Mathematik",
-                Name = "Sqrt",
-                Signature = "(Number)",
-                InsertText = "Sqrt()",
-                Example = "Sqrt(16) → 4"
-            });
-
-            Items.Add(new FormulaItem()
-            {
-                Category = "Finanz",
-                Name = "Rabatt",
-                Signature = "(Number; Number)",
-                InsertText = "Rabatt(; )",
-                Example = "Rabatt(100;0.1) → 10"
-            });
-
-            Items.Add(new FormulaItem()
-            {
-                Category = "Finanz",
-                Name = "Netto",
-                Signature = "(Number;Number)",
-                InsertText = "Netto(;)",
-                Example = "Netto(119;mwst) → 100"
-            });
-
-            Items.Add(new FormulaItem()
-            {
-                Category = "Finanz",
-                Name = "Brutto",
-                Signature = "(Number;Number)",
-                InsertText = "Brutto(;)",
-                Example = "Brutto(100;mwst) → 119"
             });
 
             this.DataContext = this;

@@ -2,6 +2,8 @@
 {
     using System;
 
+    [Formula("Mathematik", "sqrt", "(Number)", "sqrt()", "sqrt(16) → 4", "Gibt die Quadratwurzel einer Zahl zurück")]
+
     public class SqrtFunction : ICalculatorFunction
     {
         public string Name => "sqrt";

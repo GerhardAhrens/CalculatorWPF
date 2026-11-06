@@ -1,5 +1,6 @@
 ﻿namespace System.Windows.Calculator
 {
+    [Formula("Finanz", "Netto", "(Number, Number)", "Netto(;)", "Netto(119;mwst) → 100", "Berechnet den Netto-Betrag aus Bruttobetrag und Mehrwertsteuer")]
     public class NettoFunction : ICalculatorFunction
     {
         public string Name => "netto";

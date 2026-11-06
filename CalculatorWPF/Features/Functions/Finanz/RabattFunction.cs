@@ -1,5 +1,6 @@
 ﻿namespace System.Windows.Calculator
 {
+    [Formula("Finanz", "Rabatt", "(Number, Number)", "Rabatt(;)", "Rabatt(100;10) → 10", "Berechnet den Rabatt-Betrag aus Betrag und Rabatt-Prozent")]
     public class RabattFunction : ICalculatorFunction
     {
         public string Name => "rabatt";

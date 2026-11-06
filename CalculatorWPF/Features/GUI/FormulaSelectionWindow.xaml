@@ -17,6 +17,7 @@
             x:Name="lvItems"
             ItemsSource="{Binding Path=Items}"
             MouseDoubleClick="lvItems_MouseDoubleClick"
+            ScrollViewer.HorizontalScrollBarVisibility="Visible"
             SelectedItem="{Binding SelectedItem}">
             <ListView.Resources>
                 <Style x:Key="TbStyle" TargetType="TextBlock">
@@ -55,6 +56,7 @@
                                     Width="Auto"
                                     Style="{StaticResource ResourceKey=TbStyle}"
                                     Text="{Binding Path=Name}"
+                                    TextWrapping="Wrap"
                                     ToolTip="{Binding Path=Description}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -67,11 +69,36 @@
                         HeaderContainerStyle="{StaticResource ResourceKey=TextHeaderStyle}" />
 
                     <GridViewColumn
-                        Width="1000"
-                        DisplayMemberBinding="{Binding Path=Example}"
+                        Width="Auto"
                         Header="Beispiel"
-                        HeaderContainerStyle="{StaticResource ResourceKey=TextHeaderStyle}" />
+                        HeaderContainerStyle="{StaticResource ResourceKey=TextHeaderStyle}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Width="400"
+                                    Style="{StaticResource ResourceKey=TbStyle}"
+                                    Text="{Binding Path=Example}"
+                                    TextWrapping="Wrap"
+                                    ToolTip="{Binding Path=Signature}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
 
+                    <GridViewColumn
+                        Width="Auto"
+                        Header="Beschreibung"
+                        HeaderContainerStyle="{StaticResource ResourceKey=TextHeaderStyle}">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Width="300"
+                                    Style="{StaticResource ResourceKey=TbStyle}"
+                                    Text="{Binding Path=Description}"
+                                    TextWrapping="Wrap"
+                                    ToolTip="{Binding Path=Signature}" />
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                 </GridView>
 
             </ListView.View>

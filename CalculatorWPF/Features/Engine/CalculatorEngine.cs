@@ -35,6 +35,7 @@
             this._functionRegistry.Register(new Kw2PsFunction());
             this._functionRegistry.Register(new Ps2KwFunction());
             this._functionRegistry.Register(new UmfangFunction());
+            this._functionRegistry.Register(new ZinsenLinearFunction());
 
             DataTable dtKunden = LadeKunden();
             DataTable dtArtikel = LadeArtikel();
