@@ -53,14 +53,35 @@
                 Category = "Konstante",
                 Name = "PI",
                 InsertText = "PI",
+                Signature = "Number",
                 Description = "Kreiszahl PI"
             });
 
             Items.Add(new FormulaItem()
             {
                 Category = "Konstante",
+                Name = "E",
+                InsertText = "E",
+                Signature = "Number",
+                Description = "Eulersche Zahl"
+            });
+
+            Items.Add(new FormulaItem()
+            {
+                Category = "Konstante",
+                Name = "π",
+                InsertText = "π",
+                Signature = "Number",
+                Description = "Kreiszahl π"
+            });
+
+            Items.Add(new FormulaItem()
+            {
+                Category = "Konstante",
                 Name = "MWST",
-                InsertText = "MWST"
+                InsertText = "MWST",
+                Signature = "Number",
+                Description = "Mehrwertsteuer 19%"
             });
 
             Items.Add(new FormulaItem()

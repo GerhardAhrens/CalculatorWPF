@@ -19,23 +19,34 @@
             _valueRegistry.Register("MwSt", () => 19);
             _valueRegistry.Register("PI", () => Math.PI);
             _valueRegistry.Register("E", () => Math.E);
+            _valueRegistry.Register("π", () => Math.Tau);
             _valueRegistry.Register("M", () => MemoryValue);
 
             _functionRegistry = new FunctionRegistry();
+            /* Funktionen */
             this._functionRegistry.Register(new IfFunction());
+            this._functionRegistry.Register(new FormatFunction());
+
+            /* Mathematik */
             this._functionRegistry.Register(new SqrtFunction());
+
+            /* Finanzen */
             this._functionRegistry.Register(new BruttoFunction());
             this._functionRegistry.Register(new NettoFunction());
             this._functionRegistry.Register(new RabattFunction());
+            this._functionRegistry.Register(new ZinsenLinearFunction());
+
+            /* Datum */
             this._functionRegistry.Register(new HeuteFunction());
             this._functionRegistry.Register(new DateDiffFunction());
-            this._functionRegistry.Register(new KwFunction());
             this._functionRegistry.Register(new DateFunction());
-            this._functionRegistry.Register(new FormatFunction());
+            this._functionRegistry.Register(new KwFunction());
+
             this._functionRegistry.Register(new Kw2PsFunction());
             this._functionRegistry.Register(new Ps2KwFunction());
+
+            /* Geometrie */
             this._functionRegistry.Register(new UmfangFunction());
-            this._functionRegistry.Register(new ZinsenLinearFunction());
 
             DataTable dtKunden = LadeKunden();
             DataTable dtArtikel = LadeArtikel();
