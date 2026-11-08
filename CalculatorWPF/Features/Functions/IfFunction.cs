@@ -1,5 +1,7 @@
 ﻿namespace System.Windows.Calculator
 {
+    [Formula("Funktion", "If", "(Boolean; Value; Value)", "If(; ; )", "If(1>0;\"Ja\";\"Nein\")", "Prüft eine Bedingung und gibt einen von zwei Werten zurück")]
+
     public sealed class IfFunction : ICalculatorFunction
     {
         public string Name => "If";

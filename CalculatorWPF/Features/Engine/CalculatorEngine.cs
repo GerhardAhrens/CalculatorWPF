@@ -41,6 +41,7 @@
             this._functionRegistry.Register(new DateDiffFunction());
             this._functionRegistry.Register(new DateFunction());
             this._functionRegistry.Register(new KwFunction());
+            this._functionRegistry.Register(new TagImJahr());
 
             this._functionRegistry.Register(new Kw2PsFunction());
             this._functionRegistry.Register(new Ps2KwFunction());

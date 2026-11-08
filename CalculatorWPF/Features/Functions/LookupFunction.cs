@@ -1,5 +1,6 @@
 ﻿namespace System.Windows.Calculator
 {
+    [Formula("Funktion", "Lookup", "(String; Key; String)", "Lookup(\"\"; ; \"\")", "Lookup(\"Artikel\";2001;\"B\") → Kugelschreiber oder Lookup(\"Artikel\";2001;\"C\") → 1,99", "Sucht nach einem Wert in einer Tabelle und gibt den entsprechenden Eintrag zurück")]
     public sealed class LookupFunction : ICalculatorFunction
     {
         public string Name => "Lookup";

@@ -91,25 +91,6 @@
                 InsertText = "M"
             });
 
-
-            Items.Add(new FormulaItem()
-            {
-                Category = "Funktion",
-                Name = "Lookup",
-                Signature = "(String; Key; String)",
-                InsertText = "Lookup(\"\"; ; \"\")",
-                Example = "Lookup(\"Artikel\";2001;\"B\") → Kugelschreiber oder Lookup(\"Artikel\";2001;\"C\") → 1,99"
-            });
-
-            Items.Add(new FormulaItem()
-            {
-                Category = "Funktion",
-                Name = "If",
-                Signature = "(Boolean; Value; Value)",
-                InsertText = "If(; ; )",
-                Example = "If(1>0;\"Ja\";\"Nein\")"
-            });
-
             this.DataContext = this;
 
         }
