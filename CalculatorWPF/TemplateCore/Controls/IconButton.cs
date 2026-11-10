@@ -1,6 +1,5 @@
-﻿namespace System.Windows
+﻿namespace System.Windows.Controls
 {
-    using System.Windows.Controls;
     using System.Windows.Media;
 
     public class IconButton : Button

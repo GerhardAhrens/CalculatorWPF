@@ -2,6 +2,7 @@
     x:Class="CalculatorWPF.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:UI="clr-namespace:System.Windows.Controls"
     xmlns:base="clr-namespace:System.Windows"
     xmlns:calculator="clr-namespace:System.Windows.Calculator"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -29,7 +30,7 @@
         </Grid.ColumnDefinitions>
 
         <!--#region Popup im MainWindow Dialog-->
-        <base:DialogPopup
+        <UI:DialogPopup
             x:Name="InformationPopup"
             base:MaskLayerBehavior.Owner="{Binding Path=., RelativeSource={RelativeSource AncestorType=Window}}"
             PopupAnimation="Fade"
@@ -50,7 +51,7 @@
                     <views:InformationUC IsParentOpen="{Binding Path=IsOpen, UpdateSourceTrigger=PropertyChanged, ElementName=InformationPopup}" />
                 </Border>
 
-                <base:IconButton
+                <UI:IconButton
                     x:Name="btnClose"
                     Grid.Column="1"
                     Width="30"
@@ -64,9 +65,9 @@
                     PathWidth="18"
                     PressedBackground="Transparent" />
             </Grid>
-        </base:DialogPopup>
+        </UI:DialogPopup>
 
-        <base:DialogPopup
+        <UI:DialogPopup
             x:Name="SettingsPopup"
             base:MaskLayerBehavior.Owner="{Binding Path=., RelativeSource={RelativeSource AncestorType=Window}}"
             PopupAnimation="Fade"
@@ -86,7 +87,7 @@
                     <views:SettingsUC />
                 </Border>
 
-                <base:IconButton
+                <UI:IconButton
                     Grid.Column="1"
                     Width="30"
                     Margin="10,4,0,0"
@@ -99,7 +100,7 @@
                     PathWidth="18"
                     PressedBackground="Transparent" />
             </Grid>
-        </base:DialogPopup>
+        </UI:DialogPopup>
         <!--#endregion Popup im MainWindow Dialog-->
 
         <Border BorderBrush="DarkGray" BorderThickness="0,0,0,2">

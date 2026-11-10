@@ -1,4 +1,4 @@
-﻿namespace System.Windows
+﻿namespace System.Windows.Controls
 {
     using System.Runtime.InteropServices;
     using System.Windows.Controls.Primitives;
