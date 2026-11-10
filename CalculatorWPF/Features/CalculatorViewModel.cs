@@ -16,6 +16,7 @@
 namespace System.Windows.Calculator
 {
     using System;
+    using System.Collections.ObjectModel;
 
     public class CalculatorViewModel : NotifyPropertyBase
     {
@@ -58,6 +59,24 @@ namespace System.Windows.Calculator
             set => base.SetValue(value);
         }
 
+        public ObservableCollection<string> SearchSuggestions { get; }
+    = new ObservableCollection<string>
+    {
+                "Berlin",
+                "Bremen",
+                "Dortmund",
+                "Dresden",
+                "Düsseldorf",
+                "Frankfurt",
+                "Hamburg",
+                "Hannover",
+                "Mannheim",
+                "München",
+                 "12345",
+                "123456"
+    };
+
+
         public void EvaluateExpression()
         {
             ErrorText = string.Empty;
@@ -89,7 +108,6 @@ namespace System.Windows.Calculator
             catch (Exception ex)
             {
                 ErrorText = ex.Message;
-                /*ErrorText = $"{ex.GetType().Name}\r\n{ex.Message}\r\n{ex.StackTrace}";*/
             }
         }
     }

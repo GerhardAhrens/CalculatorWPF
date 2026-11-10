@@ -2,12 +2,42 @@
     x:Class="System.Windows.Calculator.ExpressionCalculatorView"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:UI="clr-namespace:System.Windows.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:System.Windows.Calculator"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="120"
+    d:DesignHeight="140"
     d:DesignWidth="400"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DrawingImage x:Key="IconDatabase_Calc">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <DrawingGroup.Transform>
+                        <ScaleTransform ScaleX="0.25" ScaleY="0.25" />
+                    </DrawingGroup.Transform>
+
+                    <GeometryDrawing Brush="#FF637984" Geometry="F1M182.082,0L16.24,0C7.271,0,0,7.271,0,16.24L0,221.457C0,230.426,7.271,237.696,16.24,237.696L182.082,237.696C191.051,237.696,198.321,230.426,198.321,221.457L198.321,16.24C198.321,7.271,191.051,0,182.082,0z" />
+                    <GeometryDrawing Brush="#FFD4E0E2" Geometry="F1M39.161,218.03C30.877,218.03 24.161,211.314 24.161,203.03 24.161,194.745 30.877,188.03 39.161,188.03 47.445,188.03 54.161,194.745 54.161,203.03 54.161,211.314 47.445,218.03 39.161,218.03z" />
+                    <GeometryDrawing Brush="#FFD4E0E2" Geometry="F1M39.161,168.03C30.877,168.03 24.161,161.314 24.161,153.03 24.161,144.745 30.877,138.03 39.161,138.03 47.445,138.03 54.161,144.745 54.161,153.03 54.161,161.314 47.445,168.03 39.161,168.03z" />
+                    <GeometryDrawing Brush="#FFD4E0E2" Geometry="F1M39.161,118.03C30.877,118.03 24.161,111.314 24.161,103.03 24.161,94.745 30.877,88.03 39.161,88.03 47.445,88.03 54.161,94.745 54.161,103.03 54.161,111.314 47.445,118.03 39.161,118.03z" />
+                    <GeometryDrawing Brush="#FFD4E0E2" Geometry="F1M79.161,218.03C70.877,218.03 64.161,211.314 64.161,203.03 64.161,194.745 70.877,188.03 79.161,188.03 87.445,188.03 94.161,194.745 94.161,203.03 94.161,211.314 87.445,218.03 79.161,218.03z" />
+                    <GeometryDrawing Brush="#FFD4E0E2" Geometry="F1M79.161,168.03C70.877,168.03 64.161,161.314 64.161,153.03 64.161,144.745 70.877,138.03 79.161,138.03 87.445,138.03 94.161,144.745 94.161,153.03 94.161,161.314 87.445,168.03 79.161,168.03z" />
+                    <GeometryDrawing Brush="#FFD4E0E2" Geometry="F1M79.161,118.03C70.877,118.03 64.161,111.314 64.161,103.03 64.161,94.745 70.877,88.03 79.161,88.03 87.445,88.03 94.161,94.745 94.161,103.03 94.161,111.314 87.445,118.03 79.161,118.03z" />
+                    <GeometryDrawing Brush="#FFD4E0E2" Geometry="F1M119.161,218.03C110.877,218.03 104.161,211.314 104.161,203.03 104.161,194.745 110.877,188.03 119.161,188.03 127.445,188.03 134.161,194.745 134.161,203.03 134.161,211.314 127.445,218.03 119.161,218.03z" />
+                    <GeometryDrawing Brush="#FFD4E0E2" Geometry="F1M119.161,168.03C110.877,168.03 104.161,161.314 104.161,153.03 104.161,144.745 110.877,138.03 119.161,138.03 127.445,138.03 134.161,144.745 134.161,153.03 134.161,161.314 127.445,168.03 119.161,168.03z" />
+                    <GeometryDrawing Brush="#FFD4E0E2" Geometry="F1M119.161,118.03C110.877,118.03 104.161,111.314 104.161,103.03 104.161,94.745 110.877,88.03 119.161,88.03 127.445,88.03 134.161,94.745 134.161,103.03 134.161,111.314 127.445,118.03 119.161,118.03z" />
+                    <GeometryDrawing Brush="#FFD4E0E2" Geometry="F1M159.161,218.03C150.877,218.03 144.161,211.314 144.161,203.03 144.161,194.745 150.877,188.03 159.161,188.03 167.445,188.03 174.161,194.745 174.161,203.03 174.161,211.314 167.445,218.03 159.161,218.03z" />
+                    <GeometryDrawing Brush="#FFD4E0E2" Geometry="F1M159.161,168.03C150.877,168.03 144.161,161.314 144.161,153.03 144.161,144.745 150.877,138.03 159.161,138.03 167.445,138.03 174.161,144.745 174.161,153.03 174.161,161.314 167.445,168.03 159.161,168.03z" />
+                    <GeometryDrawing Brush="#FFD4E0E2" Geometry="F1M159.161,118.03C150.877,118.03 144.161,111.314 144.161,103.03 144.161,94.745 150.877,88.03 159.161,88.03 167.445,88.03 174.161,94.745 174.161,103.03 174.161,111.314 167.445,118.03 159.161,118.03z" />
+                    <GeometryDrawing Brush="#FFD4E0E2" Geometry="F1M174.161,69.03L24.161,69.03 24.161,19.603 174.161,19.603 174.161,69.03z" />
+
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
+    </UserControl.Resources>
+
     <Grid Margin="10">
 
         <Grid.RowDefinitions>
@@ -32,7 +62,7 @@
             Grid.Row="2"
             Margin="0,0,0,10"
             ColumnDefinitions="Auto,Auto,*"
-            RowDefinitions="Auto">
+            RowDefinitions="Auto,Auto">
             <TextBlock
                 Grid.Column="0"
                 VerticalAlignment="Center"
@@ -54,6 +84,17 @@
                 FontSize="20"
                 KeyDown="ExpressionBox_KeyDown"
                 PreviewKeyDown="ExpressionBox_PreviewKeyDown"
+                Text="{Binding Path=ExpressionText, UpdateSourceTrigger=PropertyChanged, FallbackValue=~0}" />
+
+            <UI:WindowAutoCompleteTextBox
+                Grid.Row="3"
+                Grid.Column="2"
+                Margin="0,5,0,0"
+                HighlightBrush="#CDE4FF"
+                Icon="{StaticResource IconDatabase_Calc}"
+                ObservableSuggestions="{Binding Path=SearchSuggestions}"
+                Placeholder="Funktion auswählen ..."
+                SuggestionMaxHeight="200"
                 Text="{Binding Path=ExpressionText, UpdateSourceTrigger=PropertyChanged, FallbackValue=~0}" />
         </Grid>
 

@@ -11,6 +11,11 @@
         public ExpressionCalculatorView()
         {
             this.InitializeComponent();
+            WeakEventManager<UserControl, RoutedEventArgs>.AddHandler(this, "Loaded", this.OnLoaded);
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
         }
 
         private void ExpressionBox_KeyDown(object sender, KeyEventArgs e)
