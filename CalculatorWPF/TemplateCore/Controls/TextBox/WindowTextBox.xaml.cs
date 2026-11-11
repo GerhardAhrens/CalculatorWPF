@@ -326,6 +326,20 @@
             get => GetValue(F2CommandParameterProperty);
             set => SetValue(F2CommandParameterProperty, value);
         }
+
+        public static readonly DependencyProperty ENTERCommandProperty =
+        DependencyProperty.Register(
+            nameof(ENTERCommand),
+            typeof(ICommand),
+            typeof(WindowAutoCompleteTextBox),
+            new PropertyMetadata(null));
+
+        public ICommand ENTERCommand
+        {
+            get => (ICommand)GetValue(ENTERCommandProperty);
+            set => SetValue(ENTERCommandProperty, value);
+        }
+
         #endregion ICommands
 
         #region Placeholder
@@ -553,6 +567,14 @@
                 if (F2Command?.CanExecute(F2CommandParameter) == true)
                 {
                     F2Command.Execute(F2CommandParameter);
+                    e.Handled = true;
+                }
+            }
+            if (e.Key == Key.Enter)
+            {
+                if (ENTERCommand?.CanExecute(null) == true)
+                {
+                    ENTERCommand.Execute(null);
                     e.Handled = true;
                 }
             }

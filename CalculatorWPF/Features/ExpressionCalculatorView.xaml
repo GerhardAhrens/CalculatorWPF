@@ -76,22 +76,12 @@
                 VerticalContentAlignment="Center"
                 Text="{Binding Path=MemoryValue, UpdateSourceTrigger=PropertyChanged, FallbackValue=~0}" />
 
-            <TextBox
-                x:Name="ExpressionBoxX"
-                Grid.Column="2"
-                Width="Auto"
-                HorizontalContentAlignment="Stretch"
-                VerticalContentAlignment="Center"
-                FontSize="20"
-                KeyDown="ExpressionBox_KeyDown"
-                PreviewKeyDown="ExpressionBox_PreviewKeyDown"
-                Text="{Binding Path=ExpressionText, UpdateSourceTrigger=PropertyChanged, FallbackValue=~0}" />
-
             <UI:WindowAutoCompleteTextBox
                 x:Name="ExpressionBox"
-                Grid.Row="3"
+                Grid.Row="0"
                 Grid.Column="2"
                 Margin="0,5,0,0"
+                ENTERCommand="{Binding Path=FuncENTERCommand}"
                 F2Command="{Binding Path=OpenFuncDialogF2Command}"
                 F2CommandParameter="{Binding Path=Text, RelativeSource={RelativeSource Self}}"
                 HighlightBrush="#CDE4FF"

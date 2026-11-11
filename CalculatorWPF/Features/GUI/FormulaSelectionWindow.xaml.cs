@@ -47,7 +47,6 @@
             this.Items = GetFormulaDescriptionData().OrderBy(item => item.Category).ToList(); 
 
             // Konstanten
-
             Items.Add(new FormulaItem()
             {
                 Category = "Konstante",
