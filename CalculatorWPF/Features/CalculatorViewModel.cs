@@ -24,10 +24,15 @@ namespace System.Windows.Calculator
 
         public CalculatorViewModel ()
         {
+            this.OpenFuncDialogF2Command = new CommandBase((param) => this.OnOpenFuncDialog(param));
+
             this.DisplayText = "0";
             this.ExpressionText = string.Empty;
             this.ErrorText = string.Empty;
         }
+
+        public CommandBase OpenFuncDialogF2Command { get; private set; }
+
 
         public string DisplayText
         {
@@ -76,6 +81,10 @@ namespace System.Windows.Calculator
                 "123456"
     };
 
+
+        private void OnOpenFuncDialog(object commandParameter)
+        {
+        }
 
         public void EvaluateExpression()
         {

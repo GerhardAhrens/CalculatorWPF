@@ -6,7 +6,7 @@
     /// <summary>
     /// Interaktionslogik für ExpressionCalculatorView.xaml
     /// </summary>
-    public partial class ExpressionCalculatorView : UserControl
+    public partial class ExpressionCalculatorView : UserControlBase
     {
         public ExpressionCalculatorView()
         {
@@ -14,9 +14,11 @@
             WeakEventManager<UserControl, RoutedEventArgs>.AddHandler(this, "Loaded", this.OnLoaded);
         }
 
+
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
         }
+
 
         private void ExpressionBox_KeyDown(object sender, KeyEventArgs e)
         {
@@ -35,6 +37,7 @@
 
         private void ExpressionBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            /*
             if (e.Key != Key.F2)
             {
                 return;
@@ -64,6 +67,7 @@
             ExpressionBox.Focus();
 
             e.Handled = true;
+            */
         }
     }
 }

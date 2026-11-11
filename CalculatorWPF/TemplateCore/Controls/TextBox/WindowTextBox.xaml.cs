@@ -300,6 +300,34 @@
 
         #endregion
 
+        #region ICommands
+        public static readonly DependencyProperty F2CommandProperty =
+        DependencyProperty.Register(
+            nameof(F2Command),
+            typeof(ICommand),
+            typeof(WindowAutoCompleteTextBox),
+            new PropertyMetadata(null));
+
+        public ICommand F2Command
+        {
+            get => (ICommand)GetValue(F2CommandProperty);
+            set => SetValue(F2CommandProperty, value);
+        }
+
+        public static readonly DependencyProperty F2CommandParameterProperty =
+        DependencyProperty.Register(
+            nameof(F2CommandParameter),
+            typeof(object),
+            typeof(WindowAutoCompleteTextBox),
+            new PropertyMetadata(null));
+
+        public object F2CommandParameter
+        {
+            get => GetValue(F2CommandParameterProperty);
+            set => SetValue(F2CommandParameterProperty, value);
+        }
+        #endregion ICommands
+
         #region Placeholder
 
         private void UpdatePlaceholder()
@@ -520,6 +548,15 @@
 
         private void PART_TextBox_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            if (e.Key == Key.F2)
+            {
+                if (F2Command?.CanExecute(F2CommandParameter) == true)
+                {
+                    F2Command.Execute(F2CommandParameter);
+                    e.Handled = true;
+                }
+            }
+
             if (!this.SuggestionPopup.IsOpen)
             {
                 return;
@@ -667,7 +704,6 @@
 
             return false;
         }
-
         #endregion
     }
 }
