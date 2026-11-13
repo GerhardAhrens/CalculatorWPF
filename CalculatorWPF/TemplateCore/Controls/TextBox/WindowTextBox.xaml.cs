@@ -547,6 +547,11 @@
 
         private void PART_TextBox_GotFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
+            if (string.IsNullOrEmpty(this.PART_TextBox.Text) == true)
+            {
+                return;
+            }
+
             MainBorder.BorderBrush = new SolidColorBrush(Color.FromRgb(0, 120, 212));
 
             this.UpdatePlaceholder();
@@ -564,12 +569,22 @@
         {
             if (e.Key == Key.F2)
             {
-                if (F2Command?.CanExecute(F2CommandParameter) == true)
+                var parameter = new WindowTextBoxCommandParameter(
+                    PART_TextBox.Text,
+                    PART_TextBox.CaretIndex,
+                    PART_TextBox.SelectionStart,
+                    PART_TextBox.SelectionLength,
+                    PART_TextBox.SelectedText,
+                    PART_TextBox.SelectionStart
+                );
+
+                if (F2Command?.CanExecute(parameter) == true)
                 {
-                    F2Command.Execute(F2CommandParameter);
+                    F2Command.Execute(parameter);
                     e.Handled = true;
                 }
             }
+
             if (e.Key == Key.Enter)
             {
                 if (ENTERCommand?.CanExecute(null) == true)
@@ -728,4 +743,13 @@
         }
         #endregion
     }
+
+    public record WindowTextBoxCommandParameter(
+        string Text,
+        int CaretIndex,
+        int SelectionStart,
+        int SelectionLength,
+        string SelectedText,
+        int SelectedIndex
+    );
 }

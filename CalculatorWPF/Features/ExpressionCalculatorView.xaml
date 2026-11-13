@@ -87,7 +87,7 @@
                 HighlightBrush="#CDE4FF"
                 Icon="{StaticResource IconDatabase_Calc}"
                 ObservableSuggestions="{Binding Path=SearchSuggestions}"
-                Placeholder="Funktion auswählen ..."
+                Placeholder="Funktion auswählen oder Ausdruck eingeben..."
                 SuggestionMaxHeight="200"
                 Text="{Binding Path=ExpressionText, UpdateSourceTrigger=PropertyChanged, FallbackValue=~0}" />
         </Grid>

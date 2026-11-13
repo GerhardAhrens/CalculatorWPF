@@ -49,6 +49,10 @@
             /* Geometrie */
             this._functionRegistry.Register(new UmfangFunction());
 
+            /* Elektro */
+            this._functionRegistry.Register(new AmpereFunction());
+            this._functionRegistry.Register(new LeistungFunction());
+
             DataTable dtKunden = LadeKunden();
             DataTable dtArtikel = LadeArtikel();
             DataTableLookupProvider provider = new();

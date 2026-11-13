@@ -18,6 +18,7 @@ namespace System.Windows.Calculator
     using System;
     using System.Collections.ObjectModel;
     using System.Reflection;
+    using System.Windows.Controls;
 
     public class CalculatorViewModel : NotifyPropertyBase
     {
@@ -124,7 +125,7 @@ namespace System.Windows.Calculator
 
         private void OnOpenFuncDialog(object commandParameter)
         {
-            string param = commandParameter as string;
+            WindowTextBoxCommandParameter param = commandParameter as WindowTextBoxCommandParameter;
 
             FormulaSelectionWindow window = new FormulaSelectionWindow()
             {
