@@ -48,6 +48,8 @@
 
             /* Geometrie */
             this._functionRegistry.Register(new UmfangFunction());
+            this._functionRegistry.Register(new ArToqmFunction());
+            this._functionRegistry.Register(new QmToarFunction());
 
             /* Elektro */
             this._functionRegistry.Register(new AmpereFunction());
